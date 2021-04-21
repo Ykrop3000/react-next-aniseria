@@ -1,0 +1,4 @@
+export const VIEWMODE = "VIEWMODE";
+export const ANIMES = "ANIMES";
+export const HEADERTRANSPARENT = "HEADERTRANSPARENT";
+export const HEADERABSOLUTE = "HEADERABSOLUTE";

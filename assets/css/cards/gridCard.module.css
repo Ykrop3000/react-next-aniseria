@@ -1,0 +1,68 @@
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.card_title {
+  margin: 0;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 15px !important;
+  font-weight: 500;
+  line-height: 17px !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.card_misc {
+  color: #83848f;
+  margin: 4px 0;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 13px !important;
+  margin-top: 4px;
+  font-weight: 400;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.card_poster {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  padding-top: 150%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.card_poster__score {
+  left: 0;
+  width: 36px;
+  bottom: 0;
+  font-size: 16px;
+  background: rgba(255, 152, 0, 0.7);
+  color: white;
+  height: 36px;
+  display: flex;
+  z-index: 1;
+  position: absolute;
+  text-align: center;
+  align-items: center;
+  font-weight: 600;
+  justify-content: center;
+}
+.card_poster__status {
+  top: 4px;
+  left: 4px;
+  color: #ffffff !important;
+  display: -webkit-box;
+  padding: 2px 6px;
+  overflow: hidden;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+  margin-right: 8px;
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}

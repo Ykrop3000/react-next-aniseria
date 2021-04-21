@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  padding: 4px;
+  background: #171717;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  margin-bottom: 3px;
+}
+.card_poster__wrap {
+  min-width: 64px;
+  margin-right: 12px;
+}
+.card_poster {
+  border-radius: 6px;
+}
+.card_content__title {
+  cursor: pointer;
+  margin: 8px 0 4px !important;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 17px !important;
+  font-weight: 500;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.card_content__episode {
+  cursor: pointer;
+  margin: 4px 0 4px !important;
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 16px !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.card_content__time {
+  color: rgba(140, 140, 140, 7);
+  font-size: 13px;
+  margin-bottom: 0;
+}
+.year {
+  margin-left: 6px;
+}

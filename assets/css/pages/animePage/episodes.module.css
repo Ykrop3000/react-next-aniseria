@@ -1,0 +1,82 @@
+.episodes {
+  margin: 4px 0px 0;
+}
+.episode {
+  margin: 4px 0px;
+  padding: 8px 8px 8px 12px;
+  background: rgba(120, 120, 120, 0.05);
+  border-radius: 6px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.watched {
+  background: rgba(140, 140, 140, 0.02);
+}
+.season {
+  color: rgba(255, 255, 255, 0.38);
+  padding: 3px 18px 3px 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.title_wrap {
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.title {
+  white-space: nowrap;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.translation {
+  color: rgba(140, 140, 140, 1);
+  margin: 2px 0;
+  font-size: 13px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.translator {
+  padding: 8px 0px 8px 8px;
+  border-radius: 6px;
+  background: rgba(120, 120, 120, 0.05);
+}
+
+.player_wrap {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding-bottom: 56.2%;
+  position: relative;
+}
+.player {
+  background: #171717;
+
+  position: absolute;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.player_modal {
+  max-width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 599px) {
+  .player_modal {
+    max-width: 95%;
+  }
+}

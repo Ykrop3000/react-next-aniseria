@@ -1,0 +1,40 @@
+.card {
+  margin: 6px 0;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background: #171717;
+  align-items: center;
+  border-radius: 6px;
+}
+.card_poster {
+  width: 64px;
+  height: 96px;
+  min-width: 64px;
+  min-height: 96px;
+  padding-top: 0;
+}
+
+.card_content {
+  margin: 4px 8px 4px 16px;
+}
+.card_content__title {
+  margin: 3px 0 2px !important;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-word;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+  white-space: normal;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.card_content__title > small {
+  margin-left: 4px;
+}
+@media (max-width: 959.95px) {
+  .card_content {
+    margin: 4px 8px 4px 12px;
+  }
+}

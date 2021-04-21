@@ -3,13 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently --kill-others \" next dev\" \"nodemon ./server/index.js\"",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "server": "nodemon ./server/index.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.2",
+    "mongoose-paginate-v2": "^1.3.17",
     "next": "^10.0.0",
+    "nodemon": "^2.0.7",
+    "pure-react-carousel": "^1.27.6",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-infinite-scroller": "^1.2.4",
+    "react-redux": "^7.2.3",
+    "react-time-ago": "^6.2.2",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "slugify": "^1.5.0",
+    "timeago-react": "^3.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.1"
   }
 }

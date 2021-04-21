@@ -1,0 +1,34 @@
+.header {
+  position: relative;
+  padding-bottom: 0 !important;
+}
+.poster_wrap {
+  position: relative;
+}
+
+@media (min-width: 600px) {
+  .header {
+    padding-top: 64px !important;
+  }
+  .poster {
+    left: 0;
+    right: 0;
+    padding: 8px;
+    z-index: 3;
+    position: absolute;
+  }
+}
+@media (max-width: 599px) {
+  .poster_wrap {
+    background-color: #121212;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    padding-top: 150% !important;
+    background-size: cover;
+    background-position: 50%;
+  }
+  .poster {
+    display: none;
+  }
+}
