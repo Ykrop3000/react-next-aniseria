@@ -13,6 +13,7 @@ export default function Carousel({ data = [], full }) {
       }
     : {
         width: "5%",
+        padding: "16px 6px",
       };
 
   return (
@@ -21,7 +22,7 @@ export default function Carousel({ data = [], full }) {
         totalSlides={data.length}
         naturalSlideWidth={5}
         naturalSlideHeight={10}
-        visibleSlides={5}
+        visibleSlides={2}
         isIntrinsicHeight
       >
         <Slider classNameTray={"slider"}>

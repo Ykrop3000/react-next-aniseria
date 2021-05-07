@@ -1,8 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { connect } from "react-redux";
-import { fetchAnimes } from "../../src/api";
+import { fetchAnimes } from "src/api";
 import dynamic from "next/dynamic";
 import { Grid } from "@material-ui/core";
 
@@ -31,10 +30,10 @@ function Animes({ mode, data = {} }) {
     }
     getAnimes();
   }, [router.query]);
-
+  // pages={animes.totalPages}
   return (
-    <List title="Каталог аниме" pages={animes.totalPages}>
-      {animes.docs.map((anime) =>
+    <List title="Каталог аниме">
+      {animes.map((anime) =>
         mode === "grid" ? (
           <Grid key={anime.id} item xs={4} sm={3} md={2}>
             <GridCard key={anime.id} data={anime} />
@@ -46,11 +45,11 @@ function Animes({ mode, data = {} }) {
     </List>
   );
 }
-export async function getStaticProps({ query }) {
+export async function getServerSideProps({ query }) {
   const resp = await fetchAnimes({
     limit: 30,
     order: "popularity",
-    query,
+    ...query,
   });
   return { props: { data: resp.data } };
 }

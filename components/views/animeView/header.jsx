@@ -1,10 +1,24 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  InputLabel,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { connect } from "react-redux";
 import dynamic from "next/dynamic";
 import StarIcon from "@material-ui/icons/Star";
 import styles from "assets/css/pages/animePage/header.module.css";
+import { addFavorite, removeFavorite } from "src/api";
+import { SignalCellularNull } from "@material-ui/icons";
+const Menu = dynamic(import("@material-ui/core/Menu"));
+
+const BookmarkBorderIcon = dynamic(import("@material-ui/icons/BookmarkBorder"));
+const BookmarkIcon = dynamic(import("@material-ui/icons/Bookmark"));
 
 // const Filter = dynamic(import("../filter/filter"));
 const useStylesRate = makeStyles((theme) => ({
@@ -33,20 +47,6 @@ const useStylesRate = makeStyles((theme) => ({
 }));
 
 const useStyles = makeStyles((theme) => ({
-  img: {
-    width: "100%",
-    height: "auto",
-    maxWidth: "100%",
-    borderRadius: "6px",
-  },
-  img_wrap: {
-    padding: "0 12px",
-    "@media (min-width: 600px)": {
-      padding: "12px",
-      background: "#171717",
-      borderRadius: "6px",
-    },
-  },
   title: {
     margin: " 4px 0px 16px",
     fontWeight: 600,
@@ -108,6 +108,131 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Actions = ({
+  hookWatch,
+  user,
+  anime,
+  isfavorite,
+  mobile = false,
+  stats,
+}) => {
+  const [stat, setStat] = React.useState(false);
+  const [open, setOpen] = React.useState(null);
+
+  const handleChange = (event) => {
+    setStat(event.target.value);
+    if (event.target.value === "delete") {
+      removeFavorite(anime.id);
+    } else {
+      addFavorite({
+        user_id: user.id,
+        target_id: anime.id,
+        status: event.target.value,
+      });
+    }
+  };
+  const handleClick = (event) => {
+    setOpen(event.currentTarget);
+  };
+  const handleClose = () => {
+    setOpen(null);
+  };
+  return (
+    <div className={styles.actions}>
+      <Button
+        onClick={hookWatch}
+        fullWidth={!mobile}
+        variant="contained"
+        color="primary"
+        className={styles.action}
+      >
+        Смотреть
+      </Button>
+
+      {/* variant={!mobile ? "outlined" : "contained"} */}
+      {/* disabled={isLogged ? false : true} */}
+
+      {mobile && (
+        <>
+          <Button
+            disabled={!user.id}
+            onClick={handleClick}
+            variant="contained"
+            color="primary"
+            className={styles.action}
+          >
+            {!isfavorite ? <BookmarkBorderIcon /> : <BookmarkIcon />}
+          </Button>
+          <Menu
+            id="stats-menu"
+            anchorEl={open}
+            keepMounted
+            open={Boolean(open)}
+            onClose={handleClose}
+          >
+            {Object.keys(stats).map((key) => (
+              <MenuItem
+                value={key}
+                onClick={() => handleChange({ target: { value: key } })}
+              >
+                {stats[key]}
+              </MenuItem>
+            ))}
+          </Menu>
+        </>
+      )}
+
+      {!mobile && (
+        <Select
+          fullWidth
+          disabled={!user.id}
+          value={stat}
+          variant="outlined"
+          onChange={handleChange}
+          renderValue={(select) =>
+            !select
+              ? !isfavorite
+                ? "Добавить закладки"
+                : "Удалить из закладок"
+              : stats[select]
+          }
+        >
+          {isfavorite && (
+            <MenuItem value="delete">Удалить из закладок</MenuItem>
+          )}
+          {Object.keys(stats).map((key) => (
+            <MenuItem value={key}>{stats[key]}</MenuItem>
+          ))}
+        </Select>
+      )}
+      {/* 
+      <FormControl fullWidth variant="outlined">
+        <InputLabel id="rate-label">
+          {!mobile ? (
+            isfavorite ? (
+              "Удалить из закладок"
+            ) : (
+              "Добавить закладки"
+            )
+          ) : isfavorite ? (
+            <BookmarkIcon />
+          ) : (
+            <BookmarkBorderIcon />
+          )}
+        </InputLabel>
+        <Select className={styles.action} labelId="rate-label" label="Age">
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl> */}
+    </div>
+  );
+};
+
 const Rate = ({ raiting, votes }) => {
   const classes = useStylesRate();
 
@@ -116,8 +241,12 @@ const Rate = ({ raiting, votes }) => {
       <div className={classes.raiting}>
         <div className={classes.raiting_wrap}>
           <StarIcon className={classes.raiting_star} />
-          <span style={{ "margin-left": "4px" }}>
-            {`${raiting} (голосов: ${votes})`}
+          <span style={{ marginLeft: "4px" }}>
+            {`${raiting} (голосов: ${votes
+              .map((e) => e.value)
+              .reduce(function(previousValue, currentValue, index, array) {
+                return previousValue + currentValue;
+              })})`}
           </span>
         </div>
       </div>
@@ -125,13 +254,20 @@ const Rate = ({ raiting, votes }) => {
   );
 };
 
-export default function Header({ data }) {
-  const [width, setWidth] = React.useState(1040); // default width, detect on server.
+function Header({
+  data,
+  hookWatch,
+  user,
+  isLogged,
+  kinds,
+  stats,
+  statusAnime,
+}) {
+  const [width, setWidth] = React.useState(1040);
   const classes = useStyles();
-
   React.useEffect(() => {
     setWidth(window.innerWidth);
-  });
+  }, []);
 
   return (
     <Grid container className={`${styles.header} container`} spacing={2}>
@@ -143,13 +279,21 @@ export default function Header({ data }) {
         className={`poster_full ${styles.poster_wrap}`}
       >
         <div className={styles.poster}>
-          <div className={classes.img_wrap}>
+          <div className={styles.img_wrap}>
             <img
-              className={classes.img}
-              src={data.material_data.poster_url}
+              className={styles.img}
+              src={`https://shikimori.one${data.image.original}`}
               alt="poster"
             />
           </div>
+          <Actions
+            hookWatch={hookWatch}
+            anime={data}
+            isLogged={isLogged}
+            isfavorite={data.favoured}
+            stats={stats}
+            user={user}
+          />
           <div className={classes.poster_buttons}></div>
         </div>
       </Grid>
@@ -162,7 +306,7 @@ export default function Header({ data }) {
               color="inherit"
               className={classes.subTitle}
             >
-              {data.title_orig + " / " + data.other_title}
+              {data.english[0] + " / " + data.japanese[0]}
             </Typography>
             <Typography
               component="h1"
@@ -170,17 +314,12 @@ export default function Header({ data }) {
               color="inherit"
               className={classes.title}
             >
-              {data.material_data.title}
-              <div className={classes.status}>
-                {data.material_data.anime_kind}
-              </div>
+              {data.russian}
+              <div className={classes.status}>{kinds[data.kind]}</div>
             </Typography>
 
             <Grid className={classes.stats} container>
-              <Rate
-                raiting={data.material_data.shikimori_rating}
-                votes={data.material_data.shikimori_votes}
-              />
+              <Rate raiting={data.score} votes={data.rates_scores_stats} />
               <Grid item className={classes.stat}></Grid>
             </Grid>
           </>
@@ -193,20 +332,31 @@ export default function Header({ data }) {
               variant="body2"
               className={classes.mobileTitle_subTitle}
             >
-              {data.title_orig}
+              {data.name}
             </Typography>
-            <div className={classes.mobileTitle}>
-              {data.material_data.title}
-            </div>
+            <div className={classes.mobileTitle}>{data.russian}</div>
             <Typography
               component="h2"
               variant="body2"
               className={classes.mobileTitle_subTitle}
             ></Typography>
-
-            <Rate
-              raiting={data.material_data.shikimori_rating}
-              votes={data.material_data.shikimori_votes}
+            <Typography
+              component="h2"
+              variant="body2"
+              className={classes.mobileTitle_subTitle}
+            >
+              {`${kinds[data.kind]} ${data.aired_on.split("-")[0]} ${
+                statusAnime[data.status]
+              }`}
+            </Typography>
+            <Rate raiting={data.score} votes={data.rates_scores_stats} />
+            <Actions
+              hookWatch={hookWatch}
+              anime={data}
+              isfavorite={data.favoured}
+              stats={stats}
+              user={user}
+              mobile
             />
           </div>
         )}
@@ -216,7 +366,7 @@ export default function Header({ data }) {
         {`
           @media (max-width: 599px) {
             .poster_full {
-              background-image: url(${data.material_data.poster_url});
+              background-image: url(https://shikimori.one${data.image.original});
             }
             .poster_full:before {
               top: 0;
@@ -237,3 +387,16 @@ export default function Header({ data }) {
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => ({
+  statusAnime: state.constant.statusAnime,
+  stats: state.constant.stats,
+  kinds: state.constant.kind,
+  user: state.user.user,
+  isLogged: state.user.isLogged,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

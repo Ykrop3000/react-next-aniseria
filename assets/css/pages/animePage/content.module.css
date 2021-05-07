@@ -19,21 +19,6 @@
   margin-right: auto;
 }
 
-.tabs {
-  margin-top: -4px;
-  min-height: unset;
-  margin-bottom: 16px;
-}
-.tab {
-  padding: 8px 10px;
-  font-size: 0.875rem;
-  min-width: unset;
-  min-height: unset;
-  font-weight: 500;
-  margin-right: 8px;
-  border-radius: 8px;
-}
-
 @media (max-width: 599px) {
   .content_wrap {
     margin: -24px 0px 0;

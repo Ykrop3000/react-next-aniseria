@@ -5,7 +5,15 @@
 .poster_wrap {
   position: relative;
 }
-
+.img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 6px;
+}
+.img_wrap {
+  padding: 0 12px;
+}
 @media (min-width: 600px) {
   .header {
     padding-top: 64px !important;
@@ -16,6 +24,20 @@
     padding: 8px;
     z-index: 3;
     position: absolute;
+  }
+  .img_wrap {
+    padding: 12px;
+    background: #171717;
+    border-radius: 6px;
+  }
+  .actions {
+    padding: 16px 16px 0;
+    text-align: center;
+  }
+  .action {
+    padding: 8px;
+    font-weight: 500;
+    margin-bottom: 8px;
   }
 }
 @media (max-width: 599px) {
@@ -30,5 +52,19 @@
   }
   .poster {
     display: none;
+  }
+  .actions {
+    width: 100%;
+    margin: 8px 0px;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .action {
+    font-size: 13px;
+    border-radius: 16px;
+  }
+  .action:last-child {
+    margin-left: 8px;
   }
 }

@@ -1,4 +1,5 @@
-import { Grid } from "@material-ui/core";
+import { Grid, NoSsr } from "@material-ui/core";
+import SubHeader from "components/base/subHeader";
 
 import dynamic from "next/dynamic";
 
@@ -12,21 +13,30 @@ export default function Home({
   pages,
   useFilter = true,
   useSecondaryFilter = true,
+  useTabs = false,
+  tabs = [],
+  tab,
+  handleTabs,
 }) {
   return (
     <>
-      {useFilter && <Filter title={title} />}
-
-      <div className="container">
-        {useSecondaryFilter && <SecondaryFilter />}
-
+      <SubHeader
+        useTabs={useTabs}
+        tabs={tabs}
+        tab={tab}
+        handleTabs={handleTabs}
+        title={title}
+      >
+        {useFilter && <Filter />}
+      </SubHeader>
+      <div className="container narrowContainer">
+        <NoSsr>{useSecondaryFilter && <SecondaryFilter />}</NoSsr>
         <div className="list">
           <Grid container spacing={2}>
             {children}
           </Grid>
         </div>
-
-        {pages && <Paginator pages={pages} />}
+        <NoSsr>{pages && <Paginator pages={pages} />}</NoSsr>
       </div>
     </>
   );

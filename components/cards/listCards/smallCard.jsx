@@ -1,19 +1,23 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Link from "next/link";
-import styles from "../../../assets/css/cards/listCardSmall.module.css";
+import styles from "assets/css/cards/listCardSmall.module.css";
+import { useSelector } from "react-redux";
 
 export default function ListCardSmall({ data }) {
+  const kind = useSelector((state) => state.constant.kind);
   const getYear = (date) => {
     if (!date) return "";
     return date.split("-")[0];
   };
 
   return (
-    <Link href="#">
-      <a title={`${data.russian} / ${data.name}`} className={`${styles.card}`}>
+    <Link href={data.url}>
+      <a title={`${data.russian} / ${data.name}`} className={styles.card}>
         <div
           className={`card_poster ${styles.card_poster}`}
-          style={{ backgroundImage: `url(${data.image.preview})` }}
+          style={{
+            backgroundImage: `url(https://shikimori.one${data.image.preview})`,
+          }}
         ></div>
 
         <div className={styles.card_content}>
@@ -31,8 +35,8 @@ export default function ListCardSmall({ data }) {
             variant="subtitle2"
             className={styles.card_content__title}
           >
-            {data.kind}
-            <small>{getYear(data.aried_on)}</small>
+            {kind[data.kind]}
+            <small>{getYear(data.aired_on)}</small>
           </Typography>
         </div>
       </a>

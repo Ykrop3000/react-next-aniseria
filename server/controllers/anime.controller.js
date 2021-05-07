@@ -2,6 +2,9 @@ const Genres = require("../models/Genres");
 const Kodik = require("../models/AnimeKodik");
 const parse = require("../utils/parseKodik");
 const axios = require("axios");
+const config = require("../config/auth.config");
+const jwt = require("jsonwebtoken");
+const User = require("../models/Auth/User");
 
 const sleepRequest = (milliseconds, originalRequest) => {
   return new Promise((resolve) => {
@@ -33,11 +36,17 @@ class animeController {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 24;
     const order = req.query.order || "id";
+    const search = req.query.search;
     const status = req.query.status;
     const kind = req.query.kind;
+    const ids = req.query.ids;
 
     // order id | score | episodes | aired_on
     const orders = [
+      {
+        name: "popularity",
+        path: "visits",
+      },
       {
         name: "id",
         path: "shikimori_id",
@@ -87,6 +96,11 @@ class animeController {
       "title material_data.title material_data.title_en material_data.poster_url url material_data.anime_kind material_data.shikimori_rating material_data.anime_status material_data.aired_at material_data.anime_genres material_data.shikimori_votes";
 
     let sortParams = {};
+    if (search) {
+      sortParams = Object.assign({}, sortParams, {
+        "material_data.title": { $regex: search, $options: "$i" },
+      });
+    }
 
     if (status && statuses.includes(status))
       sortParams = Object.assign({}, sortParams, {
@@ -95,6 +109,10 @@ class animeController {
     if (kind && kindes.includes(kind))
       sortParams = Object.assign({}, sortParams, {
         "material_data.anime_kind": kind,
+      });
+    if (ids)
+      sortParams = Object.assign({}, sortParams, {
+        shikimori_id: { $in: ids.split(",") },
       });
 
     const options = {
@@ -110,20 +128,37 @@ class animeController {
   }
   async getOne(req, res) {
     const url = req.params.id;
+    let token = req.headers["authorization"]
+      ? req.headers["authorization"].split(" ")[1]
+      : "";
+    let response = {};
+    let user = undefined;
+
+    jwt.verify(token, config.secret, async (err, decoded) => {
+      if (decoded._id) {
+        await User.findOne({ _id: decoded._id }).then(async (resp) => {
+          user = resp;
+        });
+      }
+    });
+
     Kodik.findOne({ url }).then(async (resp) => {
       if (resp) {
-        res.json(resp);
+        response = resp;
+        await Kodik.updateOne({ _id: resp._id }, { visits: resp.visits + 1 });
       } else {
         const data = await parse("https://kodikapi.com/search", {
           shikimori_id: url.split("-")[0],
         });
 
         if (data) {
-          res.json(data);
+          response = data;
         } else {
-          res.json({ err: "notFound" });
+          res.status(404).json({ err: "notFound" });
         }
       }
+
+      res.json(response._doc);
     });
   }
   async getGenres(req, res) {

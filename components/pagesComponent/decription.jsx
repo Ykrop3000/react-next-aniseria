@@ -35,9 +35,10 @@ const Description = ({ des }) => {
     >
       <div
         className={`${classes.description} ${showDes ? "" : classes.hidden}`}
-      >
-        {des}
-      </div>
+        dangerouslySetInnerHTML={{
+          __html: des,
+        }}
+      ></div>
       <Button color="primary" onClick={toggleDes}>
         {showDes ? "Скрыть" : "Раскрыть"}
       </Button>

@@ -1,13 +1,17 @@
 import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../actions/types";
 
 const initialState = {
+  client_id: "vWH694NVtAjBy5zW6K119ViSypMjuZ3lstEBfGlSSwA",
+  client_secret: "75yh1Jdj6AKwWVHQNaPEQZkdpIWvZlYxqCuo0YI_BPI",
+  redirect_uri: "https://aniseria.ru//login",
+
   orderData: [
     {
       id: "popularity",
       text: "По популярности",
     },
     {
-      id: "score",
+      id: "ranked",
       text: "По рейтингу",
     },
     {

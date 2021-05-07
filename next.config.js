@@ -6,9 +6,9 @@ module.exports = {
 
     return config;
   },
-  future: {
-    webpack5: true,
-  },
+  // future: {
+  //   webpack5: true,
+  // },
   images: {
     domains: ["st.kp.yandex.net", "shikimori.one"],
   },

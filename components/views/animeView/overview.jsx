@@ -6,11 +6,9 @@ import Description from "components/pagesComponent/decription";
 export default function Overview({ data }) {
   return (
     <>
-      <Genres genres={data.material_data.anime_genres} />
+      {data.genres && <Genres genres={data.genres} />}
 
-      {data.material_data.description && (
-        <Description des={data.material_data.description} />
-      )}
+      {data.description && <Description des={data.description_html} />}
     </>
   );
 }

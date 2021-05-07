@@ -24,8 +24,8 @@ export default function SiteBar({ children, title = "Каталог" }) {
         {title}
       </Typography>
       <div className={classes.content}>
-        {children}
-
+        {!full && children.slice(0, 4)}
+        {full && children}
         <ShowMore val={full} set={setfull} />
       </div>
     </div>

@@ -35,9 +35,22 @@ const theme = createMuiTheme({
         fontSize: "1.25rem",
       },
     },
+    MuiButton: {
+      root: {
+        lineHeight: 1.5,
+        fontWeight: 400,
+      },
+    },
     MuiOutlinedInput: {
+      notchedOutline: {
+        border: "none",
+      },
       input: {
         padding: "12px",
+      },
+      root: {
+        background: "rgba(120,120,120, 0.05)",
+        border: "none",
       },
     },
     MuiInputBase: {
@@ -69,10 +82,6 @@ const theme = createMuiTheme({
     MuiSelect: {
       icon: {
         color: "#f2f2f2",
-      },
-      outlined: {
-        background: "rgba(120,120,120, 0.05)",
-        border: "none",
       },
     },
     MuiMenuItem: {

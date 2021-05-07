@@ -2,41 +2,45 @@ import React from "react";
 import { Grid, Tab, Tabs } from "@material-ui/core";
 import Header from "components/views/animeView/header";
 import dynamic from "next/dynamic";
-
-import axios from "axios";
-import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { fetchAnime } from "src/api";
 import Head from "next/head";
 
 import classes from "assets/css/pages/animePage/content.module.css";
 import Overview from "components/views/animeView/overview";
+import SiteBar from "components/views/animeView/siteBar";
 
 const Episodes = dynamic(import("components/views/animeView/episodes"));
 const Error = dynamic(import("next/error"));
 
-export default function Anime({ anime = {}, err = false }) {
-  const router = useRouter();
-
+export default function Anime({ data = {}, err = false, id }) {
+  const [anime, setAnime] = React.useState(data);
   const [page, setPage] = React.useState(0);
-  const [width, setWidth] = React.useState(1040); // default width, detect on server.
+  const [width, setWidth] = React.useState(1040);
+  const user = useSelector((state) => state.user.user);
 
-  React.useEffect(() => {
+  React.useEffect(async () => {
     setWidth(window.innerWidth);
-  });
+    const resp = await fetchAnime(id);
+    setAnime(resp.data);
+  }, [user]);
 
   const handleChange = (event, newValue) => {
     setPage(newValue);
   };
+  const hookWatch = () => {
+    setPage(1);
+  };
 
-  //   getAnime();
-  if (err) return <Error statusCode={404} />;
+  if (err) return <Error statusCode={err} />;
 
   return (
     <>
       <Head>
-        <title>{`${anime.material_data.title} / ${anime.material_data.title_en}  | AniSeria`}</title>
+        <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
       </Head>
 
-      <Header data={anime} />
+      <Header data={anime} hookWatch={hookWatch} />
 
       <div className={classes.content_wrap}>
         <Grid className={classes.content} container spacing={2}>
@@ -46,16 +50,18 @@ export default function Anime({ anime = {}, err = false }) {
               indicatorColor="primary"
               textColor="primary"
               value={page}
-              className={classes.tabs}
+              className="tabs"
               onChange={handleChange}
               aria-label="disabled tabs example"
               centered={width >= 600 ? false : true}
             >
-              <Tab className={classes.tab} label="описание" />
-              {anime.material_data.anime_status !== "anons" && (
+              <Tab className="tab" label="описание" />
+              {anime.status !== "anons" && (
                 <Tab
-                  className={classes.tab}
-                  label={`серии (${anime.episodes_count})`}
+                  className="tab"
+                  label={`серии (${
+                    anime.episodes !== 0 ? anime.episodes : anime.episodes_aired
+                  })`}
                 />
               )}
             </Tabs>
@@ -66,6 +72,10 @@ export default function Anime({ anime = {}, err = false }) {
             {page === 1 && <Episodes data={anime} />}
 
             {/* ------------------ */}
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={3}>
+            {(page === 0 || width > 600) && <SiteBar info={anime} />}
           </Grid>
         </Grid>
       </div>
@@ -95,9 +105,10 @@ export default function Anime({ anime = {}, err = false }) {
 //   };
 // };
 export async function getServerSideProps(ctx) {
-  const resp = await axios.get(
-    "http://localhost:8080/api/animes/" + ctx.params.id
-  );
-  if (resp.data.err) return { props: { err: true } };
-  return { props: { anime: resp.data } };
+  const id = ctx.params.id;
+  const resp = await fetchAnime(id);
+  if (resp.data.code) return { props: { err: resp.data.code } };
+  let anime = resp.data;
+
+  return { props: { data: anime, id } };
 }

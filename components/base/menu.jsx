@@ -1,17 +1,25 @@
-import { Avatar } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
+import React from "react";
+import { Avatar, Button, Popover, NoSsr, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { connect } from "react-redux";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+
+import { USER } from "store/actions/types";
 
 const Drawer = dynamic(import("@material-ui/core/Drawer"));
 const Nav = dynamic(import("./nav"));
+const UserInfo = dynamic(import("components/base/userInfo"));
+const AuthDilog = dynamic(import("components/views/auth"));
+const BookmarkIcon = dynamic(import("@material-ui/icons/Bookmark"));
 
-import React from "react";
+import PopoverMenu from "components/base/popoverMenu";
 
-import styles from "../../assets/css/header.module.css";
+import { signOut } from "src/api";
 
-const drawerWidth = 240;
+import styles from "assets/css/header.module.css";
+
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   hide: {
@@ -32,55 +40,147 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   },
-  avatar: {
-    color: theme.palette.secondary.main,
-    width: "36px",
-    height: "36px",
-    backgroundColor: theme.palette.background.paper,
-  },
 }));
 
-export default function Menu() {
+function Menu({ user, isLogged, logout_ }) {
   const classes = useStyles();
   const [isOpen, setOpen] = React.useState(false);
-  const [width, setWidth] = React.useState(1040); // default width, detect on server.
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [isOpenAuthDilog, setOpenAuthDilog] = React.useState(false);
+  const [width, setWidth] = React.useState(1040);
+  const isOpenPopover = Boolean(anchorEl);
+  const id = isOpenPopover ? "avatar-popover" : undefined;
 
   React.useEffect(() => {
     setWidth(window.innerWidth);
   });
 
-  const open = () => {
+  const logout = () => {
+    logout_();
+    signOut();
+  };
+
+  const openPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const closePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const openAuthDilog = () => {
+    setOpenAuthDilog(true);
+  };
+  const closeAuthDilog = () => {
+    setOpenAuthDilog(false);
+  };
+
+  const open = (event) => {
     if (width <= 600) setOpen(true);
+    if (width > 600 && !isLogged) openAuthDilog();
+    if (width > 600 && isLogged) openPopover(event);
   };
   const close = () => {
     setOpen(false);
+    if (width > 600 && !isLogged) closeAuthDilog();
+    if (width > 600 && isLogged) closePopover();
   };
 
   return (
     <>
-      <Avatar color="inherit" className={classes.avatar} onClick={open}>
-        <PersonIcon />
-      </Avatar>
-
-      {width < 600 && (
-        <Drawer
-          className={classes.drawer}
-          classes={{
-            paper: classes.drawerPaper,
+      {isLogged && (
+        <Popover
+          id={id}
+          open={isOpenPopover}
+          anchorEl={anchorEl}
+          onClose={closePopover}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
           }}
-          anchor={"right"}
-          open={isOpen}
-          onClose={close}
-          onClick={close}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
         >
-          <div className={styles.list}>
-            <div className={styles.list_user}></div>
-            <div className={styles.list_menu}>
-              <Nav />
-            </div>
-          </div>
-        </Drawer>
+          <PopoverMenu handleLogout={logout} user={user} />
+        </Popover>
       )}
+      <NoSsr>
+        <AuthDilog open={isOpenAuthDilog} onClose={closeAuthDilog} />
+        {isLogged && width > 600 && (
+          <Link href="/user/bookmarks">
+            <IconButton component="a" className="awatar_wrap">
+              <BookmarkIcon />
+            </IconButton>
+          </Link>
+        )}
+        <Button className="awatar_wrap">
+          <Avatar
+            src={user.avatar}
+            color="inherit"
+            className="avatar"
+            onClick={open}
+            aria-describedby={id}
+          />
+        </Button>
+
+        {width < 600 && (
+          <Drawer
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            anchor={"right"}
+            open={isOpen}
+            onClose={close}
+            onClick={close}
+          >
+            <div className={styles.list}>
+              {/* User Section */}
+              {isLogged && (
+                <div className={styles.drawer_wrap}>
+                  <UserInfo />
+                </div>
+              )}
+              {!isLogged && (
+                <Button
+                  onClick={openAuthDilog}
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    margin: "16px 14px 8px",
+                    padding: "12px 30px",
+                  }}
+                >
+                  Войти в аккаунт
+                </Button>
+              )}
+              {/* ----------------------------- */}
+              <div className={styles.drawer_wrap}>
+                <Nav />
+              </div>
+
+              {isLogged && (
+                <Button className="user_item" onClick={logout}>
+                  Выйти
+                </Button>
+              )}
+            </div>
+          </Drawer>
+        )}
+      </NoSsr>
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+  isLogged: state.user.isLogged,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout_: () => dispatch({ type: USER, payload: {} }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

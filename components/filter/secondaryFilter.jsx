@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { Box, Button } from "@material-ui/core";
 import styles from "assets/css/secondaryFilter.module.css";
 import Field from "./field";
+
 import { makeStyles } from "@material-ui/core/styles";
-import SwapVertIcon from "@material-ui/icons/SwapVert";
-import ViewComfyIcon from "@material-ui/icons/ViewComfy";
-import ListIcon from "@material-ui/icons/List";
-import { useRouter } from "next/router";
+// import SwapVertIcon from "@material-ui/icons/SwapVert";
+// import ViewComfyIcon from "@material-ui/icons/ViewComfy";
+// import ListIcon from "@material-ui/icons/List";
+// import { useRouter } from "next/router";
+
 import { VIEWMODE } from "../../store/actions/types";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,34 +24,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SecondaryFilter({ orderData, mode, setGridMode, setListMode }) {
-  const classes = useStyles();
-  const router = useRouter();
+  // const classes = useStyles();
+  // const router = useRouter();
 
-  const sortReverce = () => {
-    const q = router.query.order;
-    if (q) {
-      const params = Object.assign({}, router.query, {
-        order: q.includes("-") ? q.slice(1) : "-" + q,
-      });
-      router.push({ query: params });
-    } else {
-      const params = Object.assign({}, router.query, {
-        order: "-" + orderData[0].id,
-      });
-      router.push({ query: params });
-    }
-  };
+  // const sortReverce = () => {
+  //   const q = router.query.order;
+  //   if (q) {
+  //     const params = Object.assign({}, router.query, {
+  //       order: q.includes("-") ? q.slice(1) : "-" + q,
+  //     });
+  //     router.push({ query: params });
+  //   } else {
+  //     const params = Object.assign({}, router.query, {
+  //       order: "-" + orderData[0].id,
+  //     });
+  //     router.push({ query: params });
+  //   }
+  // };
 
   return (
     <Box className={styles.secondaryFilter}>
       <div>
         <Field data={orderData} active={orderData[0]} name="order" />
-        <Button onClick={sortReverce} className={classes.button}>
+        {/* <Button onClick={sortReverce} className={classes.button}>
           <SwapVertIcon />
-        </Button>
+        </Button> */}
       </div>
       <div className={styles.mode}>
-        <Button
+        {/* <Button
           onClick={setListMode}
           className={`${classes.button} ${
             mode === "list" ? classes.button_active : ""
@@ -64,7 +66,7 @@ function SecondaryFilter({ orderData, mode, setGridMode, setListMode }) {
           }`}
         >
           <ViewComfyIcon />
-        </Button>
+        </Button> */}
       </div>
     </Box>
   );

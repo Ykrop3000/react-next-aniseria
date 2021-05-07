@@ -25,45 +25,52 @@ export default function filterField({
   placeholder = "Типы",
   selectedText = "тип",
   multiple = true,
-  name = "genres",
+  name = "genre",
 }) {
-  const [selected, setSelect] = React.useState(active);
   const router = useRouter();
+  const [selected, setSelect] = React.useState(
+    router.query[name] ? router.query[name].split(",") : []
+  );
+
   const classes = useStyles();
-  const isFirstRun = React.useRef(true);
+  React.useEffect(() => {
+    setSelect(router.query[name] ? router.query[name].split(",") : []);
+  }, [router.query[name]]);
 
   const handleChange = (event) => {
     setSelect(event.target.value);
-  };
-
-  React.useEffect(() => {
-    if (isFirstRun.current !== 0) {
-      isFirstRun.current = false;
-      return;
-    }
     const params = Object.assign({}, router.query, {
-      [name]: multiple ? selected.join(",") : selected,
+      [name]: multiple ? event.target.value.join(",") : event.target.value,
     });
     router.push({ query: params });
-  }, [selected]);
+  };
 
   return (
     <FormControl className={classes.form}>
       <Select
         variant="outlined"
+        defaultValue={"false"}
         className={classes.select}
         value={selected}
+        displayEmpty
         onChange={handleChange}
         multiple={multiple}
-        renderValue={(select) => `${select.length} ${selectedText}`}
+        renderValue={(select) => {
+          return select.length === 0
+            ? placeholder
+            : `${select.length} ${selectedText}`;
+        }}
       >
         <MenuItem value="" disabled>
           {placeholder}
         </MenuItem>
 
         {data.map((element) => (
-          <MenuItem key={element.id} value={element.id}>
-            <Checkbox size="small" checked={selected.includes(element.id)} />
+          <MenuItem key={element.id} value={String(element.id)}>
+            <Checkbox
+              size="small"
+              checked={selected.includes(String(element.id))}
+            />
             <ListItemText primary={element.russian} />
           </MenuItem>
         ))}

@@ -13,30 +13,28 @@ export default function gridCard({ data, status = true, rate = true }) {
   };
   const url = data.url || data.shikimori_id;
   return (
-    <Link href={"animes/" + url} className={styles.card}>
-      <a title={`${data.material_data.title} / ${data.material_data.title_en}`}>
+    <Link href={url} className={styles.card}>
+      <a title={`${data.russian} / ${data.name}`}>
         <div
-          style={{ backgroundImage: `url(${data.material_data.poster_url})` }}
+          style={{
+            backgroundImage: `url(https://shikimori.one${data.image.original})`,
+          }}
           className={`card_poster ${styles.card_poster}`}
         >
-          {status && (
+          {status && data.status == "anons" && (
             <Typography component="p" className={styles.card_poster__status}>
-              {statusAnime[data.material_data.anime_status]}
+              {statusAnime[data.status]}
             </Typography>
           )}
-          {rate && (
-            <div className={styles.card_poster__score}>
-              {data.material_data.shikimori_rating}
-            </div>
+          {rate && data.score !== "0.0" && (
+            <div className={styles.card_poster__score}>{data.score}</div>
           )}
         </div>
         <Typography variant="h6" className={styles.card_title}>
-          {data.title}
+          {data.russian}
         </Typography>
         <Typography className={styles.card_misc}>
-          {`${kind[data.material_data.anime_kind]} ${getYear(
-            data.material_data.aired_at
-          )}`}
+          {`${kind[data.kind]} ${getYear(data.aired_on)}`}
         </Typography>
       </a>
     </Link>

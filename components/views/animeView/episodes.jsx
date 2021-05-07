@@ -52,8 +52,7 @@ export default function Episodes({ data }) {
   const [kodikOpen, setkodikOpen] = React.useState(false);
 
   const fetchData = async () => {
-    const id = data.title;
-    const resp = await getEpisodes(id);
+    const resp = await getEpisodes(data.id);
     setTranslations(resp.data.results);
   };
 
@@ -64,13 +63,11 @@ export default function Episodes({ data }) {
     setkodikOpen(true);
   };
 
-  const setTranslator = (e) => {
-    console.log(e);
-  };
+  const setTranslator = (e) => {};
 
-  // React.useEffect(() => {
-  //   fetchData();
-  // }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.episodes}>
@@ -117,7 +114,7 @@ export default function Episodes({ data }) {
       >
         <div className={styles.player_wrap}>
           <iframe
-            src={data.link}
+            src={translations[0] ? translations[0].link : NaN}
             width="640"
             height="460"
             className={styles.player}

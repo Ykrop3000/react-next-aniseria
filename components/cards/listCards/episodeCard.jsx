@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Link from "next/link";
 import styles from "../../../assets/css/cards/listCardEpisode.module.css";
 
@@ -17,7 +17,7 @@ export default function ListCardEpisode({ data }) {
       <Link href={`/animes/${data.shikimori_id}`}>
         <a
           className={styles.card_poster__wrap}
-          title={`${data.title} / ${data.title_orig}`}
+          title={`${data.material_data.title} / ${data.material_data.title_en}`}
         >
           <div
             className={`card_poster ${styles.card_poster}`}
@@ -33,7 +33,7 @@ export default function ListCardEpisode({ data }) {
             component="a"
             className={styles.card_content__title}
           >
-            {data.title}
+            {data.material_data.title}
           </Typography>
         </Link>
         <Link href="#">

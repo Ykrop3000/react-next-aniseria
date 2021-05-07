@@ -1,0 +1,41 @@
+.menu {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.item {
+  clear: both;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  padding: 10px 20px;
+  position: relative;
+  font-size: 14px;
+  min-height: unset;
+  transition: all 150ms linear;
+  align-items: center;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 0;
+}
+.item:hover {
+  color: white;
+  background: #4e6baf;
+}
+.text {
+  color: inherit;
+  padding: 10px 20px;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.username {
+  width: 100%;
+  overflow: hidden;
+  font-size: 16px;
+  margin-left: 4px;
+  text-overflow: ellipsis;
+}

@@ -1,22 +1,25 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Head from "next/head";
 import { ThemeProvider, StylesProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/theme";
-import "../assets/css/main.css";
+import "assets/css/main.css";
 import Header from "../components/base/header";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
-import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../store/actions/types";
+import {
+  HEADERABSOLUTE,
+  HEADERTRANSPARENT,
+  USER,
+} from "../store/actions/types";
 import { useRouter } from "next/router";
-import { RemoveFromQueueOutlined } from "@material-ui/icons";
+import { instance, getMe } from "src/api";
+
 function MyApp({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
   const router = useRouter();
 
   const headerController = () => {
-    const absoluteList = ["/animes", "/animes/[id]"];
+    const absoluteList = ["/animes", "/animes/[id]", "/user/bookmarks"];
     const transparentList = ["/animes/[id]"];
     const route = router.pathname;
 
@@ -33,12 +36,34 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
+  const userController = async () => {
+    if (
+      Object.keys(store.getState().user.user).length === 0 &&
+      store.getState().user.isLogged
+    ) {
+      console.log("getMe");
+      getMe()
+        .then(({ data }) => {
+          store.dispatch({ type: USER, payload: data });
+        })
+        .catch((err) => {
+          delete instance.defaults.headers.common["Authorization"];
+          localStorage.removeItem("token");
+        });
+    }
+  };
+
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+    instance.defaults.headers.common["Authorization"] =
+      typeof window != "undefined" && window.document
+        ? localStorage.getItem("token")
+        : "";
     headerController();
+    userController();
   }, []);
 
   React.useEffect(() => {
@@ -47,13 +72,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <React.Fragment>
-      <Head>
-        <title>AniSeria</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
       <StylesProvider injectFirst>
         <Provider store={store}>
           <ThemeProvider theme={theme}>
