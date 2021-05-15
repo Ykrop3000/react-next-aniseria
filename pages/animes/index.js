@@ -1,15 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { fetchAnimes } from "src/api";
+import { fetchAnimes, fetchAnimesLocal } from "src/api";
 import dynamic from "next/dynamic";
 import { Grid } from "@material-ui/core";
 
 import List from "components/views/list";
 import GridCard from "components/cards/gridCard";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 const ListCard = dynamic(import("components/cards/listCards/fullCard"));
 
-function Animes({ mode, data = {} }) {
+function Animes({ mode, data = {}, totalPages }) {
   const router = useRouter();
   const isFirstRun = React.useRef(true);
   const [animes, setAnimes] = React.useState(data);
@@ -30,9 +31,9 @@ function Animes({ mode, data = {} }) {
     }
     getAnimes();
   }, [router.query]);
-  // pages={animes.totalPages}
+  //
   return (
-    <List title="Каталог аниме">
+    <List title="Каталог аниме" pages={totalPages}>
       {animes.map((anime) =>
         mode === "grid" ? (
           <Grid key={anime.id} item xs={4} sm={3} md={2}>
@@ -46,12 +47,12 @@ function Animes({ mode, data = {} }) {
   );
 }
 export async function getServerSideProps({ query }) {
-  const resp = await fetchAnimes({
+  const resp = await fetchAnimesLocal({
     limit: 30,
     order: "popularity",
     ...query,
   });
-  return { props: { data: resp.data } };
+  return { props: { data: resp.data.docs, totalPages: resp.data.totalPages } };
 }
 // Animes.getInitialProps = async ({ query }) => {
 //   const resp = await getAnimesApi({

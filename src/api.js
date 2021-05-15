@@ -8,6 +8,20 @@ export const fetchAnimes = (params) => {
 export const fetchAnime = (id) => {
   return instance.get("https://shikimori.one/api/animes/" + id);
 };
+export const fetchAnimeRelated = (id) => {
+  return instance.get(`https://shikimori.one/api/animes/${id}/related`);
+};
+export const fetchAnimeSimilar = (id) => {
+  return instance.get(`https://shikimori.one/api/animes/${id}/similar`);
+};
+// --------------------------------------
+
+export const fetchAnimesLocal = (params) => {
+  return instance.get("http://localhost:8080/api/animes", { params });
+};
+export const fetchAnimeLocal = (params) => {
+  return instance.get("http://localhost:8080/api/animes/" + params);
+};
 
 export const fetchUpdates = (params = {}) => {
   const data = Object.assign(

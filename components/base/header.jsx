@@ -1,15 +1,19 @@
 import React from "react";
+import dynamic from "next/dynamic";
 
-import { AppBar, Toolbar, IconButton, NoSsr } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, Toolbar, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import Link from "next/link";
 import Logo from "components/imgages/logo";
-import styles from "../../assets/css/header.module.css";
-import SearchField from "components/fields/searchField";
+import styles from "assets/css/header.module.css";
+
 import Nav from "./nav";
 import Menu from "./menu";
+
+const SearchField = dynamic(import("components/fields/searchField"), {
+  ssr: false,
+});
 
 const useStyles = makeStyles((theme) => ({
   toolBar: {
@@ -28,13 +32,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ absolute, transparent }) {
+function Header({ absolute, transparent, isMobile }) {
   const classes = useStyles();
-  const [width, setWidth] = React.useState(1040); // default width, detect on server.
-
-  React.useEffect(() => {
-    setWidth(window.innerWidth);
-  });
 
   return (
     <AppBar
@@ -49,20 +48,29 @@ function Header({ absolute, transparent }) {
               <Logo />
             </IconButton>
           </Link>
-          <NoSsr>
-            {!transparent && width < 600 && <SearchField />}
-            {width >= 600 && <Nav />}
-          </NoSsr>
+
+          {!transparent && isMobile && <SearchField />}
+          {!isMobile && <Nav />}
         </div>
-        <NoSsr>{!transparent && width >= 600 && <SearchField />}</NoSsr>
-        <Menu />
+        {!transparent && !isMobile && <SearchField />}
+        <Menu isMobile={isMobile} />
       </Toolbar>
     </AppBar>
   );
 }
+Header.getInitialProps = async (ctx) => {
+  let isMobileView = (ctx.req
+    ? ctx.req.headers["user-agent"]
+    : navigator.userAgent
+  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+
+  console.log(isMobileView, 12321);
+
+  return { isMobile: isMobileView };
+};
+
 const mapStateToProps = (state) => ({
   absolute: state.constant.header.absolute,
   transparent: state.constant.header.transparent,
 });
-
 export default connect(mapStateToProps)(Header);

@@ -28,7 +28,7 @@ export default function Logo() {
         <path
           fill="#121212"
           stroke="#F2F2F2"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           d="M24.83,31.45H13.41l-1.59,5.38H1.55L13.79,4.26h10.98L37,36.83
 		H26.46L24.83,31.45z M22.75,24.41l-3.59-11.71l-3.56,11.71H22.75z"
         />

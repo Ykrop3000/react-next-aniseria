@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import Link from "next/link";
 
-function Filter({ title, statusAnime }) {
+function Filter({ statusAnime, kind }) {
   const [genres, setGenres] = React.useState([]);
 
   let statuses = [];
@@ -13,6 +13,13 @@ function Filter({ title, statusAnime }) {
     statuses.push({
       id: key,
       russian: statusAnime[key],
+    });
+  });
+  let kinds = [];
+  Object.keys(kind).forEach((key) => {
+    kinds.push({
+      id: key,
+      russian: kind[key],
     });
   });
 
@@ -31,10 +38,16 @@ function Filter({ title, statusAnime }) {
           placeholder="Статус"
           name="status"
         />
+        <OutlineField
+          data={kinds}
+          selectedText="тип"
+          placeholder="Типы"
+          name="kind"
+        />
       </div>
       <div style={{ width: "100%" }}>
         <Link href="/animes">
-          <Button style={{ margin: " 8px 4px -4px 12px" }} color="primary">
+          <Button style={{ margin: "0px 4px -4px 12px" }} color="primary">
             Сбросить
           </Button>
         </Link>
@@ -45,6 +58,7 @@ function Filter({ title, statusAnime }) {
 
 const mapStateToProps = (state) => ({
   statusAnime: state.constant.statusAnime,
+  kind: state.constant.kind,
 });
 
 export default connect(mapStateToProps)(Filter);

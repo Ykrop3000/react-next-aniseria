@@ -1,10 +1,15 @@
 const Genres = require("../models/Genres");
-const Kodik = require("../models/AnimeKodik");
-const parse = require("../utils/parseKodik");
+const Anime = require("../models/Anime");
+const parse = require("../utils/parserShiki");
 const axios = require("axios");
-const config = require("../config/auth.config");
-const jwt = require("jsonwebtoken");
-const User = require("../models/Auth/User");
+
+// Configs
+const filterConfig = require("../config/filter.config");
+const animesConfig = require("../config/animes.config");
+
+function isNumeric(value) {
+  return /^-?\d+$/.test(value);
+}
 
 const sleepRequest = (milliseconds, originalRequest) => {
   return new Promise((resolve) => {
@@ -39,31 +44,18 @@ class animeController {
     const search = req.query.search;
     const status = req.query.status;
     const kind = req.query.kind;
+    const genresAnd = req.query.genre_and;
+    const genresOr = req.query.genre_or;
     const ids = req.query.ids;
+    const season = req.query.season;
 
-    // order id | score | episodes | aired_on
-    const orders = [
-      {
-        name: "popularity",
-        path: "visits",
-      },
-      {
-        name: "id",
-        path: "shikimori_id",
-      },
-      {
-        name: "score",
-        path: "material_data.shikimori_rating",
-      },
-      {
-        name: "episodes",
-        path: "episodes_count",
-      },
-      {
-        name: "aired_on",
-        path: "material_data.aired_at",
-      },
-    ];
+    const orders = filterConfig.order;
+    const statuses = filterConfig.statuses;
+    const kindes = filterConfig.kindes;
+
+    const answer = animesConfig.listFields;
+
+    let sortParams = {};
 
     const getOrder = (order) => {
       let reverce = "-";
@@ -80,41 +72,54 @@ class animeController {
       }
     };
 
-    const statuses = ["anons", "ongoing", "released"];
-    const kindes = [
-      "tv",
-      "movie",
-      "ova",
-      "ona",
-      "special",
-      "music",
-      "tv_13",
-      "tv_24",
-      "tv_48",
-    ];
-    const answer =
-      "title material_data.title material_data.title_en material_data.poster_url url material_data.anime_kind material_data.shikimori_rating material_data.anime_status material_data.aired_at material_data.anime_genres material_data.shikimori_votes";
-
-    let sortParams = {};
-    if (search) {
+    if (
+      season &&
+      filterConfig.seasons.filter((e) => e.name == season).length !== 0
+    ) {
       sortParams = Object.assign({}, sortParams, {
-        "material_data.title": { $regex: search, $options: "$i" },
+        $expr: {
+          $in: [
+            { $month: "$aired_on" },
+            filterConfig.seasons.filter((e) => e.name == season)[0].path,
+          ],
+        },
       });
     }
-
+    if (season && Number(season)) {
+      sortParams = Object.assign({}, sortParams, {
+        $expr: {
+          $eq: [{ $year: "$aired_on" }, Number(season)],
+        },
+      });
+    }
+    if (search) {
+      sortParams = Object.assign({}, sortParams, {
+        [filterConfig.paths.title]: { $regex: search, $options: "$i" },
+      });
+    }
     if (status && statuses.includes(status))
       sortParams = Object.assign({}, sortParams, {
-        "material_data.anime_status": status,
+        [filterConfig.paths.status]: status,
       });
     if (kind && kindes.includes(kind))
       sortParams = Object.assign({}, sortParams, {
-        "material_data.anime_kind": kind,
+        [filterConfig.paths.kind]: kind,
       });
     if (ids)
       sortParams = Object.assign({}, sortParams, {
-        shikimori_id: { $in: ids.split(",") },
+        [filterConfig.paths.id]: { $in: ids.split(",") },
       });
-
+    if (genresOr)
+      sortParams = Object.assign({}, sortParams, {
+        [filterConfig.paths.genres]: {
+          $elemMatch: { id: { $in: genresOr.split(",") } },
+        },
+        // db.users.find({ 'emails':{ $elemMatch: {'address': 'user@gmail.com'}}})
+      });
+    if (genresAnd)
+      sortParams = Object.assign({}, sortParams, {
+        [filterConfig.paths.genres]: { $all: genresAnd.split(",") },
+      });
     const options = {
       page,
       limit,
@@ -122,43 +127,28 @@ class animeController {
       select: answer,
     };
 
-    Kodik.paginate(sortParams, options, function(err, result) {
+    Anime.paginate(sortParams, options, function(err, result) {
       res.json(result);
     });
   }
   async getOne(req, res) {
-    const url = req.params.id;
-    let token = req.headers["authorization"]
-      ? req.headers["authorization"].split(" ")[1]
-      : "";
-    let response = {};
-    let user = undefined;
+    const filter = isNumeric(req.params.id)
+      ? { id: req.params.id }
+      : { url: "/animes/" + req.params.id };
 
-    jwt.verify(token, config.secret, async (err, decoded) => {
-      if (decoded._id) {
-        await User.findOne({ _id: decoded._id }).then(async (resp) => {
-          user = resp;
-        });
-      }
-    });
-
-    Kodik.findOne({ url }).then(async (resp) => {
+    Anime.findOne(filter).then(async (resp) => {
       if (resp) {
-        response = resp;
-        await Kodik.updateOne({ _id: resp._id }, { visits: resp.visits + 1 });
+        res.json(resp);
+        // await Kodik.updateOne({ _id: resp._id }, { visits: resp.visits + 1 });
       } else {
-        const data = await parse("https://kodikapi.com/search", {
-          shikimori_id: url.split("-")[0],
-        });
+        const data = await parse(req.params.id);
 
         if (data) {
-          response = data;
+          res.json(data);
         } else {
           res.status(404).json({ err: "notFound" });
         }
       }
-
-      res.json(response._doc);
     });
   }
   async getGenres(req, res) {

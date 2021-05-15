@@ -67,10 +67,22 @@
 .navigation_text {
   text-transform: capitalize;
 }
+.navigation_text2 {
+  text-transform: capitalize;
+}
 .navigation_icon {
   justify-content: flex-end;
   display: none;
   min-width: 0;
+}
+.navigation {
+  display: flex;
+  flex-direction: row;
+}
+@media (min-width: 600px) {
+  .navigation_text2 {
+    display: none;
+  }
 }
 @media (max-width: 600px) {
   .header {
@@ -79,16 +91,6 @@
   .navigation_icon {
     display: flex;
     justify-content: flex-end;
-  }
-}
-
-@media (max-width: 959.95px) {
-  .home {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    background: #171717;
-    border-radius: 50%;
   }
   .navigation {
     display: flex;
@@ -101,6 +103,16 @@
   }
   .navigation_icon {
     margin-right: 6px;
+  }
+}
+
+@media (max-width: 959.95px) {
+  .home {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: #171717;
+    border-radius: 50%;
   }
 }
 @media (min-width: 1200px) {

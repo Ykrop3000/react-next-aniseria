@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  InputLabel,
-} from "@material-ui/core";
+import { Grid, Typography, Button, MenuItem, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import dynamic from "next/dynamic";
 import StarIcon from "@material-ui/icons/Star";
 import styles from "assets/css/pages/animePage/header.module.css";
 import { addFavorite, removeFavorite } from "src/api";
-import { SignalCellularNull } from "@material-ui/icons";
 const Menu = dynamic(import("@material-ui/core/Menu"));
 
 const BookmarkBorderIcon = dynamic(import("@material-ui/icons/BookmarkBorder"));
@@ -32,6 +23,9 @@ const useStylesRate = makeStyles((theme) => ({
     "@media (max-width: 959.95px)": {
       paddingLeft: 0,
       fontSize: "14px",
+    },
+    "@media (max-width: 600px)": {
+      padding: "4px",
     },
   },
   raiting_wrap: {
@@ -57,9 +51,10 @@ const useStyles = makeStyles((theme) => ({
   mobileTitle_wrap: {
     color: "#fff",
     width: "100%",
-    bottom: "20px",
     padding: "16px 20px",
     position: "absolute",
+    bottom: 0,
+    left: 0,
   },
   mobileTitle: {
     margin: 0,
@@ -205,30 +200,6 @@ const Actions = ({
           ))}
         </Select>
       )}
-      {/* 
-      <FormControl fullWidth variant="outlined">
-        <InputLabel id="rate-label">
-          {!mobile ? (
-            isfavorite ? (
-              "Удалить из закладок"
-            ) : (
-              "Добавить закладки"
-            )
-          ) : isfavorite ? (
-            <BookmarkIcon />
-          ) : (
-            <BookmarkBorderIcon />
-          )}
-        </InputLabel>
-        <Select className={styles.action} labelId="rate-label" label="Age">
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl> */}
     </div>
   );
 };
@@ -245,7 +216,7 @@ const Rate = ({ raiting, votes }) => {
             {`${raiting} (голосов: ${votes
               .map((e) => e.value)
               .reduce(function(previousValue, currentValue, index, array) {
-                return previousValue + currentValue;
+                return Number(previousValue) + Number(currentValue);
               })})`}
           </span>
         </div>
@@ -257,17 +228,14 @@ const Rate = ({ raiting, votes }) => {
 function Header({
   data,
   hookWatch,
+  isMobile,
   user,
   isLogged,
   kinds,
   stats,
   statusAnime,
 }) {
-  const [width, setWidth] = React.useState(1040);
   const classes = useStyles();
-  React.useEffect(() => {
-    setWidth(window.innerWidth);
-  }, []);
 
   return (
     <Grid container className={`${styles.header} container`} spacing={2}>
@@ -298,7 +266,7 @@ function Header({
         </div>
       </Grid>
       <Grid item xs={12} sm={8} md={9} className={classes.info}>
-        {width >= 600 && (
+        {!isMobile && (
           <>
             <Typography
               component="h2"
@@ -325,7 +293,7 @@ function Header({
           </>
         )}
 
-        {width < 600 && (
+        {isMobile && (
           <div className={classes.mobileTitle_wrap}>
             <Typography
               component="h2"

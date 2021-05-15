@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import ShowMore from "components/buttons/showMore";
 
 const useStyles = makeStyles((theme) => ({
   description_wrap: {
@@ -39,9 +40,12 @@ const Description = ({ des }) => {
           __html: des,
         }}
       ></div>
-      <Button color="primary" onClick={toggleDes}>
-        {showDes ? "Скрыть" : "Раскрыть"}
-      </Button>
+      <ShowMore
+        val={showDes}
+        set={toggleDes}
+        openText="Скрыть"
+        closeText="Раскрыть"
+      />
     </Typography>
   );
 };

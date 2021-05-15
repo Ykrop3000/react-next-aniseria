@@ -1,11 +1,11 @@
 import React from "react";
 import { ThemeProvider, StylesProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../src/theme";
+import theme from "src/theme";
 import "assets/css/main.css";
-import Header from "../components/base/header";
+import Header from "components/base/header";
 import { Provider } from "react-redux";
-import { useStore } from "../store";
+import { useStore } from "store";
 import {
   HEADERABSOLUTE,
   HEADERTRANSPARENT,
@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
 
   const headerController = () => {
     const absoluteList = ["/animes", "/animes/[id]", "/user/bookmarks"];
-    const transparentList = ["/animes/[id]"];
+    const transparentList = ["/animes/[id]", "/user/bookmarks"];
     const route = router.pathname;
 
     if (absoluteList.includes(route)) {

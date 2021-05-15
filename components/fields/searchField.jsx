@@ -2,10 +2,10 @@ import React from "react";
 import NoSsr from "@material-ui/core/NoSsr";
 import { useRouter } from "next/router";
 
-import TextField from "@material-ui/core/TextField";
+import { TextField, InputAdornment } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
-
+import SearchIcon from "@material-ui/icons/Search";
 import { fetchAnimes } from "src/api";
 import ListCardSearch from "components/cards/listCards/searchCard";
 
@@ -87,7 +87,14 @@ export default function SearchField() {
                 ev.preventDefault();
               }
             }}
-            InputProps={{ ...params.InputProps }}
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
           />
         )}
       />

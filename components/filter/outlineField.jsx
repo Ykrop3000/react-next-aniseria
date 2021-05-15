@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     minWidth: "130px",
     marginLeft: "8px",
+    marginBottom: "8px",
   },
   select: {
     padding: 0,
@@ -22,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 export default function filterField({
   data = [],
   active = [],
-  placeholder = "Типы",
-  selectedText = "тип",
+  placeholder = "Жанры",
+  selectedText = "жанр",
   multiple = true,
   name = "genre",
 }) {

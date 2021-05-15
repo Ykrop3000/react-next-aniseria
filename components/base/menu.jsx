@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Button, Popover, NoSsr, IconButton } from "@material-ui/core";
+import { Avatar, Button, Popover, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import dynamic from "next/dynamic";
@@ -7,11 +7,13 @@ import Link from "next/link";
 
 import { USER } from "store/actions/types";
 
-const Drawer = dynamic(import("@material-ui/core/Drawer"));
-const Nav = dynamic(import("./nav"));
-const UserInfo = dynamic(import("components/base/userInfo"));
-const AuthDilog = dynamic(import("components/views/auth"));
-const BookmarkIcon = dynamic(import("@material-ui/icons/Bookmark"));
+const Drawer = dynamic(import("@material-ui/core/Drawer"), { ssr: false });
+const Nav = dynamic(import("./nav"), { ssr: false });
+const UserInfo = dynamic(import("components/base/userInfo"), { ssr: false });
+const AuthDilog = dynamic(import("components/views/auth"), { ssr: false });
+const BookmarkIcon = dynamic(import("@material-ui/icons/Bookmark"), {
+  ssr: false,
+});
 
 import PopoverMenu from "components/base/popoverMenu";
 
@@ -19,7 +21,7 @@ import { signOut } from "src/api";
 
 import styles from "assets/css/header.module.css";
 
-const drawerWidth = 200;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
   hide: {
@@ -42,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Menu({ user, isLogged, logout_ }) {
+function Menu({ user, isLogged, logout_, isMobile }) {
   const classes = useStyles();
   const [isOpen, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(false);
@@ -105,70 +107,69 @@ function Menu({ user, isLogged, logout_ }) {
           <PopoverMenu handleLogout={logout} user={user} />
         </Popover>
       )}
-      <NoSsr>
-        <AuthDilog open={isOpenAuthDilog} onClose={closeAuthDilog} />
-        {isLogged && width > 600 && (
-          <Link href="/user/bookmarks">
-            <IconButton component="a" className="awatar_wrap">
-              <BookmarkIcon />
-            </IconButton>
-          </Link>
-        )}
-        <Button className="awatar_wrap">
-          <Avatar
-            src={user.avatar}
-            color="inherit"
-            className="avatar"
-            onClick={open}
-            aria-describedby={id}
-          />
-        </Button>
 
-        {width < 600 && (
-          <Drawer
-            className={classes.drawer}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            anchor={"right"}
-            open={isOpen}
-            onClose={close}
-            onClick={close}
-          >
-            <div className={styles.list}>
-              {/* User Section */}
-              {isLogged && (
-                <div className={styles.drawer_wrap}>
-                  <UserInfo />
-                </div>
-              )}
-              {!isLogged && (
-                <Button
-                  onClick={openAuthDilog}
-                  variant="contained"
-                  color="primary"
-                  style={{
-                    margin: "16px 14px 8px",
-                    padding: "12px 30px",
-                  }}
-                >
-                  Войти в аккаунт
-                </Button>
-              )}
-              {/* ----------------------------- */}
+      <AuthDilog open={isOpenAuthDilog} onClose={closeAuthDilog} />
+      {isLogged && width > 600 && (
+        <Link href="/user/bookmarks">
+          <IconButton component="a" className="awatar_wrap">
+            <BookmarkIcon />
+          </IconButton>
+        </Link>
+      )}
+      <Button className="awatar_wrap">
+        <Avatar
+          src={user.avatar}
+          color="inherit"
+          className="avatar"
+          onClick={open}
+          aria-describedby={id}
+        />
+      </Button>
+
+      {width < 600 && (
+        <Drawer
+          className={classes.drawer}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          anchor={"right"}
+          open={isOpen}
+          onClose={close}
+          onClick={close}
+        >
+          <div className={styles.list}>
+            {/* User Section */}
+            {isLogged && (
               <div className={styles.drawer_wrap}>
-                <Nav />
+                <UserInfo />
               </div>
-
-              {isLogged && (
-                <Button className="user_item" onClick={logout}>
-                  Выйти
-                </Button>
-              )}
+            )}
+            {!isLogged && (
+              <Button
+                onClick={openAuthDilog}
+                variant="contained"
+                color="primary"
+                style={{
+                  margin: "16px 14px 8px",
+                  padding: "12px 30px",
+                }}
+              >
+                Войти в аккаунт
+              </Button>
+            )}
+            {/* ----------------------------- */}
+            <div className={styles.drawer_wrap}>
+              <Nav />
             </div>
-          </Drawer>
-        )}
-      </NoSsr>
+
+            {isLogged && (
+              <Button className="user_item" onClick={logout}>
+                Выйти
+              </Button>
+            )}
+          </div>
+        </Drawer>
+      )}
     </>
   );
 }

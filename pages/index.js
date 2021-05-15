@@ -3,7 +3,7 @@ import React from "react";
 import { Grid, Typography, NoSsr } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
-import { fetchUpdates, fetchAnimes, fetchAnimesShiki } from "src/api";
+import { fetchUpdates, fetchAnimes, fetchAnimesLocal } from "src/api";
 
 import styles from "assets/css/pages/mainPage/main.module.css";
 
@@ -73,25 +73,26 @@ export default function Home({ anonses, ongoings, populars }) {
 }
 
 export async function getStaticProps() {
-  const anonses = await fetchAnimes({
+  const anonses = await fetchAnimesLocal({
     limit: 20,
     order: "ranked",
     status: "anons",
   });
-  const ongoings = await fetchAnimes({
+  const ongoings = await fetchAnimesLocal({
     limit: 20,
     order: "ranked",
     status: "ongoing",
   });
-  const populars = await fetchAnimes({
+  const populars = await fetchAnimesLocal({
     limit: 10,
+    season: new Date().getFullYear(),
     order: "popularity",
   });
   return {
     props: {
-      anonses: anonses.data,
-      ongoings: ongoings.data,
-      populars: populars.data,
+      anonses: anonses.data.docs,
+      ongoings: ongoings.data.docs,
+      populars: populars.data.docs,
     },
   };
 }

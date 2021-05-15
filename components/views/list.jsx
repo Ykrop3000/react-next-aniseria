@@ -13,20 +13,11 @@ export default function Home({
   pages,
   useFilter = true,
   useSecondaryFilter = true,
-  useTabs = false,
-  tabs = [],
-  tab,
-  handleTabs,
+  secondaryChildren,
 }) {
   return (
     <>
-      <SubHeader
-        useTabs={useTabs}
-        tabs={tabs}
-        tab={tab}
-        handleTabs={handleTabs}
-        title={title}
-      >
+      <SubHeader secondaryChildren={secondaryChildren} title={title}>
         {useFilter && <Filter />}
       </SubHeader>
       <div className="container narrowContainer">
