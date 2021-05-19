@@ -58,7 +58,10 @@ export default function Anime({
     <>
       <Head>
         <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
-        <meta name="description" content={anime.description} />
+        <meta
+          name="description"
+          content={anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")}
+        />
       </Head>
 
       <Header data={anime} hookWatch={hookWatch} isMobile={isMobile} />
