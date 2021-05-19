@@ -1,0 +1,3 @@
+UserAgent: *
+Allow: /
+Sitemap: https://aniseria.ru/sitemap.xml

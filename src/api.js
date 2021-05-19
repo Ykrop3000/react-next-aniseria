@@ -1,5 +1,11 @@
 import axios from "axios";
 
+// const localApi =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:8080"
+//     : "http://aniseria.ru:8080";
+const localApi = "http://localhost:8080";
+
 export const instance = axios.create();
 
 export const fetchAnimes = (params) => {
@@ -17,10 +23,10 @@ export const fetchAnimeSimilar = (id) => {
 // --------------------------------------
 
 export const fetchAnimesLocal = (params) => {
-  return instance.get("http://localhost:8080/api/animes", { params });
+  return instance.get(`${localApi}/api/animes`, { params });
 };
 export const fetchAnimeLocal = (params) => {
-  return instance.get("http://localhost:8080/api/animes/" + params);
+  return instance.get(`${localApi}/api/animes/` + params);
 };
 
 export const fetchUpdates = (params = {}) => {
