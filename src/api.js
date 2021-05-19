@@ -78,6 +78,8 @@ export const signIn = (params) => {
       const token = `${resp.data.token_type} ${resp.data.access_token}`;
       localStorage.setItem("token", token);
       instance.defaults.headers.common["Authorization"] = token;
+      console.log(token);
+      return token;
     })
     .catch((err) => {
       console.log(err);

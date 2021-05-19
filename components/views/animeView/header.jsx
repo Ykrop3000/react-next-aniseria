@@ -23,8 +23,6 @@ const useStylesRate = makeStyles((theme) => ({
     "@media (max-width: 959.95px)": {
       paddingLeft: 0,
       fontSize: "14px",
-    },
-    "@media (max-width: 600px)": {
       padding: "4px",
     },
   },
@@ -334,7 +332,9 @@ function Header({
         {`
           @media (max-width: 599px) {
             .poster_full {
-              background-image: url(https://shikimori.one${data.image.original});
+              background-image: url(${data.kp_id
+                ? `https://st.kp.yandex.net/images/film_big/${data.kp_id}.jpg`
+                : "https://shikimori.one" + data.image.original});
             }
             .poster_full:before {
               top: 0;

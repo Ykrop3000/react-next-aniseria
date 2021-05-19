@@ -36,11 +36,31 @@ async function getPage(url, _params = {}) {
   };
   const resp = await axios.get(url, { params });
   resp.data.forEach(async (data) => {
+    const params = {
+      token: "b7cc4293ed475c4ad1fd599d114f4435",
+      shikimori_id: data.id,
+      with_episodes: true,
+    };
+    const kodik = await axios.get("https://kodikapi.com/search", { params });
+
     const anime = await axios.get(
       "https://shikimori.one/api/animes/" + data.id
     );
+    let result = {};
+
+    if (kodik.data.results[0]) {
+      const kodik_data = kodik.data.results[0];
+
+      result = Object.assign(anime.data, {
+        kp_id: kodik_data.kinopoisk_id,
+        imdb_id: kodik_data.imdb_id,
+        worldart_id: kodik_data.worldart_link,
+      });
+    } else {
+      result = anime.data;
+    }
     try {
-      const an = new Shiki(anime.data);
+      const an = new Shiki(result);
       await an.save();
       console.log(colors.green("[+] : " + data.name));
     } catch (error) {

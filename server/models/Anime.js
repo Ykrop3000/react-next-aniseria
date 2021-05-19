@@ -75,6 +75,9 @@ const Anime = new Schema({
       preview: String,
     },
   ],
+  kp_id: String,
+  imdb_id: String,
+  worldart_id: String,
 });
 
 Anime.plugin(mongoosePaginate);

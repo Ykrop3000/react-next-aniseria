@@ -1,4 +1,4 @@
-import { USER } from "../actions/types";
+import { USER, TOKEN } from "../actions/types";
 
 const initialState = {
   user: {},
@@ -17,6 +17,12 @@ export default function user(state = initialState, action) {
       ...state,
       user: action.payload,
       isLogged: Object.keys(action.payload).length == 0 ? false : true,
+    };
+  }
+  if (action.type === TOKEN) {
+    return {
+      ...state,
+      isLogged: true,
     };
   }
   return state;

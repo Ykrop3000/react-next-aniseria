@@ -49,7 +49,7 @@ class animeController {
     const ids = req.query.ids;
     const season = req.query.season;
 
-    const orders = filterConfig.order;
+    const orders = filterConfig.orders;
     const statuses = filterConfig.statuses;
     const kindes = filterConfig.kindes;
 

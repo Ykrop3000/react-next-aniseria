@@ -8,6 +8,7 @@ import Studios from "components/pagesComponent/siteBar/studios";
 import Screenshot from "components/pagesComponent/siteBar/screenshot";
 import SiteBarWrap from "components/views/siteBarWrap";
 import Similar from "components/pagesComponent/siteBar/similar";
+import Bars from "components/pagesComponent/siteBar/bars";
 
 const useStyles = makeStyles(() => ({
   info_wrap: {
@@ -29,6 +30,9 @@ export default function SiteBar({ info, related, similar, isMobile }) {
   return (
     <SiteBarWrap>
       {/* ------------------------------------------------------------------ */}
+      <Section title="Оценки">
+        <Bars data={info.rates_scores_stats} />
+      </Section>
 
       <Section title="Издатели">
         <Studios studios={info.studios} />
@@ -41,7 +45,7 @@ export default function SiteBar({ info, related, similar, isMobile }) {
 
       {/* ------------------------------------------------------------------ */}
 
-      {info.screenshots && (
+      {info.screenshots.length !== 0 && (
         <Section title="Кадры">
           {info.screenshots.map((i) => (
             <Screenshot src={i.preview} />
@@ -49,7 +53,9 @@ export default function SiteBar({ info, related, similar, isMobile }) {
         </Section>
       )}
 
-      <Similar similar={similar} isMobile={isMobile} />
+      {similar.length !== 0 && (
+        <Similar similar={similar} isMobile={isMobile} />
+      )}
     </SiteBarWrap>
   );
 }

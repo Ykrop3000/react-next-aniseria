@@ -6,18 +6,13 @@ import "assets/css/main.css";
 import Header from "components/base/header";
 import { Provider } from "react-redux";
 import { useStore } from "store";
-import {
-  HEADERABSOLUTE,
-  HEADERTRANSPARENT,
-  USER,
-} from "../store/actions/types";
+import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../store/actions/types";
 import { useRouter } from "next/router";
-import { instance, getMe } from "src/api";
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp(props) {
+  const { Component, pageProps, isMobile } = props;
   const store = useStore(pageProps.initialReduxState);
   const router = useRouter();
-
   const headerController = () => {
     const absoluteList = ["/animes", "/animes/[id]", "/user/bookmarks"];
     const transparentList = ["/animes/[id]", "/user/bookmarks"];
@@ -36,34 +31,13 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  const userController = async () => {
-    if (
-      Object.keys(store.getState().user.user).length === 0 &&
-      store.getState().user.isLogged
-    ) {
-      console.log("getMe");
-      getMe()
-        .then(({ data }) => {
-          store.dispatch({ type: USER, payload: data });
-        })
-        .catch((err) => {
-          delete instance.defaults.headers.common["Authorization"];
-          localStorage.removeItem("token");
-        });
-    }
-  };
-
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-    instance.defaults.headers.common["Authorization"] =
-      typeof window != "undefined" && window.document
-        ? localStorage.getItem("token")
-        : "";
+
     headerController();
-    userController();
   }, []);
 
   React.useEffect(() => {
@@ -79,7 +53,7 @@ function MyApp({ Component, pageProps }) {
             <CssBaseline />
 
             <div id="app" className="app">
-              <Header />
+              <Header isMobile={isMobile} />
               <Component {...pageProps} />
             </div>
           </ThemeProvider>
@@ -88,4 +62,13 @@ function MyApp({ Component, pageProps }) {
     </React.Fragment>
   );
 }
-export default MyApp;
+MyApp.getInitialProps = async ({ ctx }) => {
+  let isMobileView = (ctx.req
+    ? ctx.req.headers["user-agent"]
+    : navigator.userAgent
+  ).match(/Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i);
+
+  return {
+    isMobile: isMobileView,
+  };
+};

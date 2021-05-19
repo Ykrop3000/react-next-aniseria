@@ -58,6 +58,7 @@ export default function Anime({
     <>
       <Head>
         <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
+        <meta name="description" content={anime.description} />
       </Head>
 
       <Header data={anime} hookWatch={hookWatch} isMobile={isMobile} />
@@ -120,7 +121,7 @@ export async function getServerSideProps(ctx) {
   let isMobileView = (ctx.req
     ? ctx.req.headers["user-agent"]
     : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+  ).match(/Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i);
 
   return { props: { data: anime, id, isMobile: isMobileView } };
 }

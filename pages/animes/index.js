@@ -49,7 +49,7 @@ function Animes({ mode, data = {}, totalPages }) {
 export async function getServerSideProps({ query }) {
   const resp = await fetchAnimesLocal({
     limit: 30,
-    order: "popularity",
+    order: "ranked",
     ...query,
   });
   return { props: { data: resp.data.docs, totalPages: resp.data.totalPages } };

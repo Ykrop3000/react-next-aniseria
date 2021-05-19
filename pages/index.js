@@ -3,7 +3,7 @@ import React from "react";
 import { Grid, Typography, NoSsr } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
-import { fetchUpdates, fetchAnimes, fetchAnimesLocal } from "src/api";
+import { fetchUpdates, fetchAnimesLocal } from "src/api";
 
 import styles from "assets/css/pages/mainPage/main.module.css";
 
@@ -15,7 +15,7 @@ const ListCardEpisode = dynamic(
   import("components/cards/listCards/episodeCard")
 );
 
-export default function Home({ anonses, ongoings, populars }) {
+export default function Home({ anonses, ongoings, populars, isMobile }) {
   const [episodes, setEpisodes] = React.useState([]);
 
   const getEpisodes = async () => {
@@ -35,7 +35,7 @@ export default function Home({ anonses, ongoings, populars }) {
 
       <Grid container spacing={1} className="container" direction="row-reverse">
         <Grid item xs={12} sm={4}>
-          <SiteBar title="Популярное">
+          <SiteBar title="Популярное" isMobile={isMobile}>
             {populars.map((data) => (
               <ListCardSmall data={data} />
             ))}
@@ -64,7 +64,7 @@ export default function Home({ anonses, ongoings, populars }) {
             {episodes.map((episode) => (
               <ListCardEpisode data={episode} key={episode.id} />
             ))}
-            <ShowMore val={false} set={getEpisodes} />
+            <ShowMore val={false} set={getEpisodes} isMobile={isMobile} />
           </NoSsr>
         </Grid>
       </Grid>
@@ -72,7 +72,12 @@ export default function Home({ anonses, ongoings, populars }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx) {
+  let isMobileView = (ctx.req
+    ? ctx.req.headers["user-agent"]
+    : navigator.userAgent
+  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
+
   const anonses = await fetchAnimesLocal({
     limit: 20,
     order: "ranked",
@@ -86,13 +91,14 @@ export async function getStaticProps() {
   const populars = await fetchAnimesLocal({
     limit: 10,
     season: new Date().getFullYear(),
-    order: "popularity",
+    order: "ranked",
   });
   return {
     props: {
       anonses: anonses.data.docs,
       ongoings: ongoings.data.docs,
       populars: populars.data.docs,
+      isMobile: isMobileView,
     },
   };
 }

@@ -14,13 +14,9 @@ export default function ShowMore({
   set,
   showText = "Скрыть",
   closeText = "Показать еще",
+  isMobile = false,
 }) {
   const classes = useStyles();
-  const [width, setWidth] = React.useState(1040); // default width, detect on server.
-
-  React.useEffect(() => {
-    setWidth(window.innerWidth);
-  });
 
   const toggleFull = () => {
     set(!val);
@@ -28,9 +24,9 @@ export default function ShowMore({
 
   return (
     <Button
-      fullWidth={width < 600 ? true : false}
+      fullWidth={isMobile ? true : false}
       color="primary"
-      variant={width < 600 ? "outlined" : "text"}
+      variant={isMobile ? "outlined" : "text"}
       onClick={toggleFull}
       className={classes.button}
     >
