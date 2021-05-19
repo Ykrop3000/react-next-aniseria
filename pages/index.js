@@ -73,11 +73,6 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 }
 
 export async function getServerSideProps(ctx) {
-  let isMobileView = (ctx.req
-    ? ctx.req.headers["user-agent"]
-    : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
-
   const anonses = await fetchAnimesLocal({
     limit: 20,
     order: "ranked",
@@ -98,7 +93,6 @@ export async function getServerSideProps(ctx) {
       anonses: anonses.data.docs,
       ongoings: ongoings.data.docs,
       populars: populars.data.docs,
-      isMobile: isMobileView,
     },
   };
 }

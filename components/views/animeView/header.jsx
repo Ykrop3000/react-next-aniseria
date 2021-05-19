@@ -163,8 +163,9 @@ const Actions = ({
             open={Boolean(open)}
             onClose={handleClose}
           >
-            {Object.keys(stats).map((key) => (
+            {Object.keys(stats).map((key, id) => (
               <MenuItem
+                key={id}
                 value={key}
                 onClick={() => handleChange({ target: { value: key } })}
               >
@@ -193,8 +194,10 @@ const Actions = ({
           {isfavorite && (
             <MenuItem value="delete">Удалить из закладок</MenuItem>
           )}
-          {Object.keys(stats).map((key) => (
-            <MenuItem value={key}>{stats[key]}</MenuItem>
+          {Object.keys(stats).map((key, id) => (
+            <MenuItem key={id} value={key}>
+              {stats[key]}
+            </MenuItem>
           ))}
         </Select>
       )}

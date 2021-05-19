@@ -58,16 +58,6 @@ function Header({ absolute, transparent, isMobile }) {
     </AppBar>
   );
 }
-Header.getInitialProps = async (ctx) => {
-  let isMobileView = (ctx.req
-    ? ctx.req.headers["user-agent"]
-    : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i);
-
-  console.log(isMobileView, 12321);
-
-  return { isMobile: isMobileView };
-};
 
 const mapStateToProps = (state) => ({
   absolute: state.constant.header.absolute,

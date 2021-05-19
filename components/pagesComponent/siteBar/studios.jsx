@@ -38,7 +38,7 @@ export default function Studios({ studios }) {
   return (
     <>
       {studios.map((studio) => (
-        <Link href={"/animes/?studio=" + studio.id}>
+        <Link href={"/animes/?studio=" + studio.id} key={studio.id}>
           <a className={classes.item}>
             <div
               className={classes.image}

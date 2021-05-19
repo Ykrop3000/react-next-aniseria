@@ -47,8 +47,8 @@ export default function SiteBar({ info, related, similar, isMobile }) {
 
       {info.screenshots.length !== 0 && (
         <Section title="Кадры">
-          {info.screenshots.map((i) => (
-            <Screenshot src={i.preview} />
+          {info.screenshots.map((i, id) => (
+            <Screenshot src={i.preview} key={id} />
           ))}
         </Section>
       )}

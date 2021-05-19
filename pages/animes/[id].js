@@ -118,10 +118,5 @@ export async function getServerSideProps(ctx) {
   if (resp.data.code) return { props: { err: resp.data.code } };
   let anime = resp.data;
 
-  let isMobileView = (ctx.req
-    ? ctx.req.headers["user-agent"]
-    : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i);
-
-  return { props: { data: anime, id, isMobile: isMobileView } };
+  return { props: { data: anime, id } };
 }

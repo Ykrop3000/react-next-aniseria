@@ -54,7 +54,7 @@ export default function MyApp(props) {
 
             <div id="app" className="app">
               <Header isMobile={isMobile} />
-              <Component {...pageProps} />
+              <Component {...pageProps} isMobile={isMobile} />
             </div>
           </ThemeProvider>
         </Provider>
@@ -62,13 +62,24 @@ export default function MyApp(props) {
     </React.Fragment>
   );
 }
-MyApp.getInitialProps = async ({ ctx }) => {
-  let isMobileView = (ctx.req
+MyApp.getInitialProps = async (something) => {
+  const { Component, ctx } = something;
+  let pageProps = {};
+
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
+  let isMobileView = ctx.req
     ? ctx.req.headers["user-agent"]
-    : navigator.userAgent
-  ).match(/Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i);
+    : navigator.userAgent;
 
   return {
-    isMobile: isMobileView,
+    pageProps,
+    isMobile: isMobileView
+      ? isMobileView.match(
+          /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i
+        )
+      : false,
   };
 };
