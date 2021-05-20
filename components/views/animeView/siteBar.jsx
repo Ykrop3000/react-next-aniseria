@@ -9,7 +9,6 @@ import Screenshot from "components/pagesComponent/siteBar/screenshot";
 import SiteBarWrap from "components/views/siteBarWrap";
 import Similar from "components/pagesComponent/siteBar/similar";
 import Bars from "components/pagesComponent/siteBar/bars";
-
 const useStyles = makeStyles(() => ({
   info_wrap: {
     background: "rgba(120, 120, 120, 0.05)",

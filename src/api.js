@@ -66,6 +66,16 @@ export const getEpisodes = (id) => {
   return resp;
 };
 
+export const fetchComments = ({
+  commentable_id,
+  commentable_type = "Topic",
+  limit = 10,
+}) => {
+  return instance.get("https://shikimori.one/api/comments", {
+    params: { commentable_id, commentable_type, limit },
+  });
+};
+
 export const getGenres = () => {
   return instance.get("https://shikimori.one/api/genres");
 };

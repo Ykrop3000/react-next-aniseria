@@ -1,0 +1,74 @@
+.wrap {
+  padding: 5px 5px 5px 12px;
+  position: relative;
+  background: rgba(120, 120, 120, 0.05);
+  align-items: flex-start;
+  border-left: 1px solid transparent;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  -webkit-box-align: start;
+}
+
+.user {
+  width: 40px;
+  height: 40px;
+  margin: 10px 11px 10px 0;
+  border-radius: 50%;
+}
+.body_wrap {
+  flex: 1;
+  -webkit-box-flex: 1;
+}
+.header {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap;
+  font-size: 15px;
+  margin-top: 10px;
+  min-height: 24px;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-bottom: 4px;
+  text-decoration: none;
+}
+.body {
+  font-size: 16px;
+  word-break: break-word;
+  line-height: 24px;
+  margin-right: 4px;
+}
+.nickname {
+  overflow: hidden;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.time {
+  color: rgba(255, 255, 255, 0.78);
+  overflow: hidden;
+  word-break: keep-all;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  white-space: nowrap;
+}
+@media (min-width: 600px) {
+  .wrap {
+    display: flex;
+    padding: 4px 4px 4px 12px;
+  }
+  .body_wrap {
+    overflow: hidden;
+  }
+}
+
+.body img {
+  max-width: 150px;
+}
+@media (max-width: 959.95px) {
+  .user {
+    float: left;
+    width: 32px;
+    height: 32px;
+    margin-top: 16px;
+  }
+}

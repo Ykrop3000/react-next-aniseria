@@ -1,9 +1,10 @@
 import React from "react";
-import { Grid, Tab, Tabs } from "@material-ui/core";
+import { Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import Header from "components/views/animeView/header";
 import dynamic from "next/dynamic";
 import { fetchAnimeLocal, fetchAnimeRelated, fetchAnimeSimilar } from "src/api";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import classes from "assets/css/pages/animePage/content.module.css";
 import Overview from "components/views/animeView/overview";
@@ -14,6 +15,9 @@ const SiteBar = dynamic(import("components/views/animeView/siteBar"), {
 const Episodes = dynamic(import("components/views/animeView/episodes"), {
   ssr: false,
 });
+const Comments = dynamic(import("components/views/animeView/comments"), {
+  ssr: false,
+});
 const Error = dynamic(import("next/error"));
 
 export default function Anime({
@@ -22,11 +26,14 @@ export default function Anime({
   id,
   isMobile = false,
 }) {
+  const router = useRouter();
   const [anime, setAnime] = React.useState(data);
   const [related, setRelated] = React.useState([]);
   const [similar, setSimilar] = React.useState([]);
 
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(
+    router.query.tab ? router.query.tab : "overview"
+  );
   const [width, setWidth] = React.useState(1040);
 
   const getRelated = async () => {
@@ -37,7 +44,9 @@ export default function Anime({
     const { data } = await fetchAnimeSimilar(id);
     setSimilar(data);
   };
-
+  React.useEffect(() => {
+    handleChange("", router.query.tab);
+  }, [router.query.tab]);
   React.useEffect(() => {
     setAnime(data);
     getRelated();
@@ -46,10 +55,20 @@ export default function Anime({
   }, [id]);
 
   const handleChange = (event, newValue) => {
+    if (router.query.tab !== newValue) {
+      router.push({
+        pathname: router.pathname,
+        query: { id: router.query.id, tab: newValue },
+      });
+    }
     setPage(newValue);
   };
   const hookWatch = () => {
-    setPage(1);
+    router.push({
+      pathname: router.pathname,
+      query: { id: router.query.id, tab: "watch" },
+    });
+    setPage("watch");
   };
 
   if (err) return <Error statusCode={err} />;
@@ -79,21 +98,40 @@ export default function Anime({
               aria-label="disabled tabs example"
               centered={!isMobile ? false : true}
             >
-              <Tab className="tab" label="описание" />
+              <Tab className="tab" value="overview" label="описание" />
+
               {anime.status !== "anons" && (
                 <Tab
                   className="tab"
+                  value="watch"
                   label={`серии (${
                     anime.episodes !== 0 ? anime.episodes : anime.episodes_aired
                   })`}
                 />
               )}
+              {isMobile && (
+                <Tab className="tab" label="комментарии" value="comments" />
+              )}
             </Tabs>
 
             {/* ------------------ */}
 
-            {page === 0 && <Overview data={anime} isMobile={isMobile} />}
-            {page === 1 && <Episodes data={anime} isMobile={isMobile} />}
+            {page === "overview" && (
+              <Overview data={anime} isMobile={isMobile} />
+            )}
+            {page === "watch" && <Episodes data={anime} isMobile={isMobile} />}
+            {((!isMobile && page === "overview") || page === "comments") && (
+              <>
+                <Typography
+                  component="h4"
+                  variant="h5"
+                  style={{ fontWeight: 600, margin: "24px 0" }}
+                >
+                  Комментарии
+                </Typography>
+                <Comments topic_id={anime.topic_id} />
+              </>
+            )}
 
             {/* ------------------ */}
           </Grid>
