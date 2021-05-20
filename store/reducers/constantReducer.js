@@ -1,9 +1,9 @@
 import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../actions/types";
 
 const initialState = {
-  client_id: process.env.client_id,
-  client_secret: process.env.client_secret,
-  redirect_uri: process.env.redirect_uri,
+  client_id: "vWH694NVtAjBy5zW6K119ViSypMjuZ3lstEBfGlSSwA",
+  client_secret: "75yh1Jdj6AKwWVHQNaPEQZkdpIWvZlYxqCuo0YI_BPI",
+  redirect_uri: "https://aniseria.ru",
 
   orderData: [
     {

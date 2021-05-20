@@ -44,6 +44,7 @@ class animeController {
     const search = req.query.search;
     const status = req.query.status;
     const kind = req.query.kind;
+    const studio = req.query.studio;
     const genresAnd = req.query.genre_and;
     const genresOr = req.query.genre_or;
     const ids = req.query.ids;
@@ -100,6 +101,12 @@ class animeController {
     if (status && statuses.includes(status))
       sortParams = Object.assign({}, sortParams, {
         [filterConfig.paths.status]: status,
+      });
+    if (studio)
+      sortParams = Object.assign({}, sortParams, {
+        [filterConfig.paths.studios]: {
+          $elemMatch: { id: { $in: studio.split(",") } },
+        },
       });
     if (kind && kindes.includes(kind))
       sortParams = Object.assign({}, sortParams, {

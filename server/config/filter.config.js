@@ -54,6 +54,7 @@ module.exports = {
   paths: {
     title: "name",
     kind: "kind",
+    studios: "studios",
     status: "status",
     genres: "genres",
     aired: "aired_on",
