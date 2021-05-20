@@ -31,19 +31,22 @@ export default function Anime({
   const [related, setRelated] = React.useState([]);
   const [similar, setSimilar] = React.useState([]);
 
-  const [page, setPage] = React.useState(
-    router.query.tab ? router.query.tab : "overview"
-  );
+  const [page, setPage] = React.useState("overview");
+
   const [width, setWidth] = React.useState(1040);
 
   const getRelated = async () => {
     const { data } = await fetchAnimeRelated(id);
     setRelated(data);
   };
+
   const getSimilar = async () => {
     const { data } = await fetchAnimeSimilar(id);
     setSimilar(data);
   };
+  React.useEffect(() => {
+    handleChange("", router.query.tab || "overview");
+  }, []);
   React.useEffect(() => {
     handleChange("", router.query.tab);
   }, [router.query.tab]);
