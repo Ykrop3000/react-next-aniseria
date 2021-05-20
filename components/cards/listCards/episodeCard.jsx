@@ -7,10 +7,7 @@ import ru from "timeago.js/lib/lang/ru";
 import * as timeago from "timeago.js";
 
 export default function ListCardEpisode({ data }) {
-  const getYear = (date) => {
-    if (!date) return "";
-    return date.split("-")[0];
-  };
+  if (!data.material_data) return <></>;
   timeago.register("ru", ru);
   return (
     <div className={`${styles.card}`}>
