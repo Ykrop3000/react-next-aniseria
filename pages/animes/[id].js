@@ -82,7 +82,11 @@ export default function Anime({
         <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
         <meta
           name="description"
-          content={anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")}
+          content={
+            anime.description
+              ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
+              : ""
+          }
         />
       </Head>
 
@@ -140,7 +144,7 @@ export default function Anime({
           </Grid>
 
           <Grid item xs={12} sm={12} md={3}>
-            {(page === 0 || !isMobile) && (
+            {(page === "overview" || !isMobile) && (
               <SiteBar
                 info={anime}
                 similar={similar}
