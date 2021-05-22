@@ -248,8 +248,13 @@ function Header({
         className={`poster_full ${styles.poster_wrap}`}
       >
         <div className={styles.poster}>
-          <div className={styles.img_wrap}>
+          <div
+            className={styles.img_wrap}
+            itemscope
+            itemtype="http://schema.org/ImageObject"
+          >
             <img
+              itemprop="contentUrl"
               className={styles.img}
               src={`https://shikimori.one${data.image.original}`}
               alt="poster"
