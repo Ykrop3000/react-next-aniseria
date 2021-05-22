@@ -75,14 +75,31 @@ export default function Anime({
   return (
     <>
       <Head>
-        <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
+        <title key="title">{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
         <meta
+          key="description"
           name="description"
           content={
             anime.description
               ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
               : ""
           }
+        />
+        <meta
+          property="og:description"
+          content={
+            anime.description
+              ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
+              : ""
+          }
+        />
+        <meta
+          property="og:title"
+          content={`${anime.russian} / ${anime.name}  | AniSeria`}
+        />
+        <meta
+          property="og:image"
+          content={`https://shikimori.one${data.image.original}`}
         />
       </Head>
       <div itemScope itemType="http://schema.org/Movie">
