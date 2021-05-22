@@ -92,7 +92,7 @@ export default function Anime({
         <meta itemType="inLanguage" content="jp" />
         <meta
           itemProp="productionCompany"
-          content={anime.studios[0].name}
+          content={anime.studios.map((e) => e.name).join(", ")}
         ></meta>
 
         <Header data={anime} hookWatch={hookWatch} isMobile={isMobile} />

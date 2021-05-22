@@ -29,13 +29,17 @@ export default function SiteBar({ info, related, similar, isMobile }) {
   return (
     <SiteBarWrap>
       {/* ------------------------------------------------------------------ */}
-      <Section title="Оценки">
-        <Bars data={info.rates_scores_stats} />
-      </Section>
+      {info.rates_scores_stats.length !== 0 && (
+        <Section title="Оценки">
+          <Bars data={info.rates_scores_stats} />
+        </Section>
+      )}
 
-      <Section title="Издатели">
-        <Studios studios={info.studios} />
-      </Section>
+      {info.studios.length !== 0 && (
+        <Section title="Издатели">
+          <Studios studios={info.studios} />
+        </Section>
+      )}
 
       <Section title="" cls={classes.info_wrap}>
         <Info data={info.fandubbers} title="Перевод:" />
