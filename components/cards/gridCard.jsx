@@ -17,7 +17,7 @@ export default function gridCard({ data, status = true, rate = true }) {
       <a title={`${data.russian} / ${data.name}`}>
         <div
           style={{
-            backgroundImage: `url(https://shikimori.one${data.image.original})`,
+            backgroundImage: `url(https://shikimori.one${data.image.preview})`,
           }}
           className={`card_poster ${styles.card_poster}`}
         >

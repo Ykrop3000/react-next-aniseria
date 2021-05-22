@@ -49,7 +49,9 @@ export default function Episodes({ data }) {
   const router = useRouter();
   const [translations, setTranslations] = React.useState([]);
   const [selectedTranslator, setSelectedTranslator] = React.useState();
-  const [kodikOpen, setkodikOpen] = React.useState(false);
+  const [kodikOpen, setkodikOpen] = React.useState(
+    router.query.player === "kodik" ? true : false
+  );
 
   const fetchData = async () => {
     const resp = await getEpisodes(data.id);
@@ -64,6 +66,10 @@ export default function Episodes({ data }) {
   };
 
   const setTranslator = (e) => {};
+
+  React.useEffect(() => {
+    setkodikOpen(router.query.player === "kodik" ? true : false);
+  }, [router.query]);
 
   React.useEffect(() => {
     fetchData();

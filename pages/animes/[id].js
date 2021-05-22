@@ -69,7 +69,7 @@ export default function Anime({
   const hookWatch = () => {
     router.push({
       pathname: router.pathname,
-      query: { id: router.query.id, tab: "watch" },
+      query: { id: router.query.id, player: "kodik", tab: "watch" },
     });
     setPage("watch");
   };

@@ -6,7 +6,6 @@ export default function SiteBar({ topic_id }) {
   const [comments, setComments] = React.useState([]);
   React.useEffect(async () => {
     const { data } = await fetchComments({ commentable_id: topic_id });
-    console.log(data);
     setComments(data);
   }, [setComments]);
 
