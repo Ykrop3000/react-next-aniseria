@@ -213,12 +213,22 @@ const Rate = ({ raiting, votes }) => {
       <div className={classes.raiting}>
         <div className={classes.raiting_wrap}>
           <StarIcon className={classes.raiting_star} />
-          <span style={{ marginLeft: "4px" }}>
-            {`${raiting} (голосов: ${votes
-              .map((e) => e.value)
-              .reduce(function(previousValue, currentValue, index, array) {
-                return Number(previousValue) + Number(currentValue);
-              })})`}
+          <span
+            style={{ marginLeft: "4px" }}
+            itemprop="aggregateRating"
+            itemscope
+            itemtype="https://schema.org/AggregateRating"
+          >
+            <span itemprop="ratingValue">{raiting}</span>
+            (голосов:
+            <span itemprop="reviewCount">
+              {votes
+                .map((e) => e.value)
+                .reduce(function(previousValue, currentValue, index, array) {
+                  return Number(previousValue) + Number(currentValue);
+                })}
+            </span>
+            )
           </span>
         </div>
       </div>
@@ -287,6 +297,7 @@ function Header({
               variant="h4"
               color="inherit"
               className={classes.title}
+              itemprop="name"
             >
               {data.russian}
               <div className={classes.status}>{kinds[data.kind]}</div>

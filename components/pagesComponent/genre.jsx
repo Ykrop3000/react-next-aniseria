@@ -5,7 +5,9 @@ export default function Genre({ genre }) {
     <>
       <Link href={`/animes?genre=${genre.id}`}>
         <a>
-          <span className="genre">{genre.russian}</span>
+          <span className="genre" itemprop="genre">
+            {genre.russian}
+          </span>
         </a>
       </Link>
 
