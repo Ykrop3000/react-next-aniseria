@@ -31,8 +31,6 @@ export default function Anime({
 
   const [page, setPage] = React.useState("overview");
 
-  const [width, setWidth] = React.useState(1040);
-
   const getRelated = async () => {
     const { data } = await fetchAnimeRelated(id);
     setRelated(data);
@@ -42,26 +40,26 @@ export default function Anime({
     const { data } = await fetchAnimeSimilar(id);
     setSimilar(data);
   };
-  React.useEffect(() => {
-    handleChange("", router.query.tab || "overview");
-  }, []);
-  React.useEffect(() => {
-    handleChange("", router.query.tab);
-  }, [router.query.tab]);
+
+  // React.useEffect(() => {
+  //   handleChange("", router.query.tab || "overview");
+  // }, [router]);
+  // React.useEffect(() => {
+  //   handleChange("", router.query.tab);
+  // }, [router.query.tab]);
   React.useEffect(() => {
     setAnime(data);
     getRelated();
     getSimilar();
-    setWidth(window.innerWidth);
   }, [id]);
 
   const handleChange = (event, newValue) => {
     if (router.query.tab !== newValue) {
       router.push({
-        pathname: router.pathname,
         query: { id: router.query.id, tab: newValue },
       });
     }
+
     setPage(newValue);
   };
   const hookWatch = () => {
@@ -87,13 +85,13 @@ export default function Anime({
           }
         />
       </Head>
-      <div itemscope itemtype="http://schema.org/Movie">
-        <meta itemprop="duration" content={anime.duration} />
-        <meta itemprop="datePublished" content={anime.released_on} />
-        <meta itemprop="dateCreated" content={anime.aired_on} />
-        <meta itemprop="inLanguage" content="jp" />
+      <div itemScope itemType="http://schema.org/Movie">
+        <meta itemType="duration" content={anime.duration} />
+        <meta itemType="datePublished" content={anime.released_on} />
+        <meta itemType="dateCreated" content={anime.aired_on} />
+        <meta itemType="inLanguage" content="jp" />
         <meta
-          itemprop="productionCompany"
+          itemProp="productionCompany"
           content={anime.studios[0].name}
         ></meta>
 
@@ -132,13 +130,14 @@ export default function Anime({
 
               {/* ------------------ */}
 
-              {page === "overview" && (
+              {(page === "overview" || !page) && (
                 <Overview data={anime} isMobile={isMobile} />
               )}
               {page === "watch" && (
                 <Episodes data={anime} isMobile={isMobile} />
               )}
-              {((!isMobile && page === "overview") || page === "comments") && (
+              {((!isMobile && (page === "overview" || !page)) ||
+                page === "comments") && (
                 <>
                   <Typography
                     component="h4"
@@ -155,7 +154,7 @@ export default function Anime({
             </Grid>
 
             <Grid item xs={12} sm={12} md={3}>
-              {(page === "overview" || !isMobile) && (
+              {(page === "overview" || !page || !isMobile) && (
                 <SiteBar
                   info={anime}
                   similar={similar}

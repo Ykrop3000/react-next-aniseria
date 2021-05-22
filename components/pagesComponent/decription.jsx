@@ -35,7 +35,7 @@ const Description = ({ des }) => {
       color="inherit"
     >
       <div
-        itemprop="description"
+        itemProp="description"
         className={`${classes.description} ${showDes ? "" : classes.hidden}`}
         dangerouslySetInnerHTML={{
           __html: des,

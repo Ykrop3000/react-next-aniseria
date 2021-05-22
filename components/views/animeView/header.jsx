@@ -215,13 +215,13 @@ const Rate = ({ raiting, votes }) => {
           <StarIcon className={classes.raiting_star} />
           <span
             style={{ marginLeft: "4px" }}
-            itemprop="aggregateRating"
-            itemscope
-            itemtype="https://schema.org/AggregateRating"
+            itemProp="aggregateRating"
+            itemScope
+            itemType="https://schema.org/AggregateRating"
           >
-            <span itemprop="ratingValue">{raiting}</span>
+            <span itemProp="ratingValue">{raiting}</span>
             (голосов:
-            <span itemprop="reviewCount">
+            <span itemProp="reviewCount">
               {votes
                 .map((e) => e.value)
                 .reduce(function(previousValue, currentValue, index, array) {
@@ -260,11 +260,11 @@ function Header({
         <div className={styles.poster}>
           <div
             className={styles.img_wrap}
-            itemscope
-            itemtype="http://schema.org/ImageObject"
+            itemScope
+            itemType="http://schema.org/ImageObject"
           >
             <img
-              itemprop="contentUrl"
+              itemProp="contentUrl"
               className={styles.img}
               src={`https://shikimori.one${data.image.original}`}
               alt="poster"
@@ -297,7 +297,7 @@ function Header({
               variant="h4"
               color="inherit"
               className={classes.title}
-              itemprop="name"
+              itemProp="name"
             >
               {data.russian}
               <div className={classes.status}>{kinds[data.kind]}</div>
