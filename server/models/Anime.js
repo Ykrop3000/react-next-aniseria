@@ -58,6 +58,7 @@ const Anime = new Schema({
       image: String,
     },
   ],
+  fandubbers: [String],
   videos: [
     {
       id: Number,

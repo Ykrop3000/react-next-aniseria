@@ -2,7 +2,6 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 
 export default function Info({ data, title }) {
-  if (!data) return <div></div>;
   const isArr = Array.isArray(data);
   return (
     <div

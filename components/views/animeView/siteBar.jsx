@@ -42,8 +42,15 @@ export default function SiteBar({ info, related, similar, isMobile }) {
       )}
 
       <Section title="" cls={classes.info_wrap}>
-        <Info data={info.fandubbers} title="Перевод:" />
-        <Info data={info.duration + " мин."} title="Длительность эпизода:" />
+        {info.rating && info.rating !== "none" && (
+          <Info data={info.rating} title="Рейтинг:" />
+        )}
+        {info.fandubbers && info.fandubbers.length !== 0 && (
+          <Info data={info.fandubbers} title="Перевод:" />
+        )}
+        {info.duration && (
+          <Info data={info.duration + " мин."} title="Длительность эпизода:" />
+        )}
       </Section>
 
       {/* ------------------------------------------------------------------ */}

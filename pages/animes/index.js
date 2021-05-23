@@ -7,7 +7,7 @@ import { Grid } from "@material-ui/core";
 
 import List from "components/views/list";
 import GridCard from "components/cards/gridCard";
-import { resolveHref } from "next/dist/next-server/lib/router/router";
+import Head from "next/head";
 const ListCard = dynamic(import("components/cards/listCards/fullCard"));
 
 function Animes({ mode, data = {}, totalPages }) {
@@ -33,17 +33,22 @@ function Animes({ mode, data = {}, totalPages }) {
   }, [router.query]);
   //
   return (
-    <List title="Каталог аниме" pages={totalPages}>
-      {animes.map((anime) =>
-        mode === "grid" ? (
-          <Grid key={anime.id} item xs={4} sm={3} md={2}>
-            <GridCard key={anime.id} data={anime} />
-          </Grid>
-        ) : (
-          <ListCard key={anime.id} data={anime} />
-        )
-      )}
-    </List>
+    <>
+      <Head>
+        <title key="title">{`Каталог аниме | AniSeria`}</title>
+      </Head>
+      <List title="Каталог аниме" pages={totalPages}>
+        {animes.map((anime) =>
+          mode === "grid" ? (
+            <Grid key={anime.id} item xs={4} sm={3} md={2}>
+              <GridCard key={anime.id} data={anime} />
+            </Grid>
+          ) : (
+            <ListCard key={anime.id} data={anime} />
+          )
+        )}
+      </List>
+    </>
   );
 }
 export async function getServerSideProps({ query }) {

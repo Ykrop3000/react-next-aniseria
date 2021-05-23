@@ -102,7 +102,11 @@ export default function Anime({
           content={`https://shikimori.one${data.image.original}`}
         />
       </Head>
-      <div itemScope itemType="http://schema.org/Movie">
+      <div
+        itemScope
+        itemType="http://schema.org/Movie"
+        style={{ display: "contents" }}
+      >
         <meta itemType="duration" content={anime.duration} />
         <meta itemType="datePublished" content={anime.released_on} />
         <meta itemType="dateCreated" content={anime.aired_on} />

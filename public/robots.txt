@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
+
+Host: https://aniseria.ru
 Sitemap: https://aniseria.ru/sitemap.xml

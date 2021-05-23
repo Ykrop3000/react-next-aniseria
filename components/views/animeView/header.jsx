@@ -219,9 +219,11 @@ const Rate = ({ raiting, votes }) => {
             itemScope
             itemType="https://schema.org/AggregateRating"
           >
-            <span itemProp="ratingValue">{raiting}</span>
+            <span itemProp="ratingValue" style={{ marginRight: "8px" }}>
+              {raiting}
+            </span>
             (голосов:
-            <span itemProp="reviewCount">
+            <span itemProp="reviewCount" style={{ margin: "0 4px" }}>
               {votes
                 .map((e) => e.value)
                 .reduce(function(previousValue, currentValue, index, array) {
