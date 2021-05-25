@@ -2,7 +2,7 @@ import React from "react";
 
 import { Grid, Typography, NoSsr } from "@material-ui/core";
 import dynamic from "next/dynamic";
-import Head from "next/Head";
+import Head from "next/head";
 import { fetchUpdates, fetchAnimesLocal } from "src/api";
 
 import styles from "assets/css/pages/mainPage/main.module.css";

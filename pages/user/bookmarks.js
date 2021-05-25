@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFavorites } from "src/api";
 import dynamic from "next/dynamic";
-import Head from "next/Head";
+import Head from "next/head";
 import { Grid, Tab, Tabs } from "@material-ui/core";
 
 import List from "components/views/list";

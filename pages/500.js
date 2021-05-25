@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "assets/css/404.module.css";
-import Head from "next/Head";
+import Head from "next/head";
 
 export default function FourOhFour() {
   return (
