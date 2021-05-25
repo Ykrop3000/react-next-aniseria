@@ -43,6 +43,8 @@ const Bars = ({ data }) => {
               className={classes.bar}
               style={{
                 width: getWidth(Number(bar.value)) + "%",
+                background: `rgb(78 107 175 / ${getWidth(Number(bar.value)) *
+                  5}%)`,
               }}
             ></div>
             <Typography variant="body1">{bar.name}</Typography>

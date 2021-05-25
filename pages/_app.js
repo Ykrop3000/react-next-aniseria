@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "src/theme";
 import "assets/css/main.css";
 import Header from "components/base/header";
+import Footer from "components/base/footer";
 import { Provider } from "react-redux";
 import { useStore } from "store";
 import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../store/actions/types";
@@ -55,6 +56,7 @@ export default function MyApp(props) {
             <div id="app" className="app">
               <Header isMobile={isMobile} />
               <Component {...pageProps} isMobile={isMobile} />
+              <Footer />
             </div>
           </ThemeProvider>
         </Provider>

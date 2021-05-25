@@ -75,7 +75,7 @@ export default function Anime({
   return (
     <>
       <Head>
-        <title key="title">{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
+        <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
         <meta
           key="description"
           name="description"
