@@ -53,6 +53,7 @@ function Header({ absolute, transparent, isMobile }) {
           {!isMobile && <Nav />}
         </div>
         {transparent && !isMobile && <SearchField />}
+        {!transparent && !isMobile && <SearchField />}
         <Menu isMobile={isMobile} />
       </Toolbar>
     </AppBar>
