@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFavorites } from "src/api";
 import dynamic from "next/dynamic";
+import Head from "next/Head";
 import { Grid, Tab, Tabs } from "@material-ui/core";
 
 import List from "components/views/list";
@@ -56,27 +57,32 @@ function Bookmarks({ user, isLogged, stats }) {
   }, [user.id]);
 
   return (
-    <List
-      title="Закладки"
-      useSecondaryFilter={false}
-      useFilter={false}
-      secondaryChildren={
-        <MyTabs
-          width={width}
-          tabs={Object.values(stats)}
-          tab={tab}
-          handleTabs={handleTabs}
-        />
-      }
-    >
-      {animes
-        .filter((i) => i.status === Object.keys(stats)[tab])
-        .map(({ anime }) => (
-          <Grid key={anime.id} item xs={4} sm={3} md={2}>
-            <GridCard key={anime.id} data={anime} />
-          </Grid>
-        ))}
-    </List>
+    <>
+      <Head>
+        <title key="title">{`Закладки аниме | AniSeria`}</title>
+      </Head>
+      <List
+        title="Закладки"
+        useSecondaryFilter={false}
+        useFilter={false}
+        secondaryChildren={
+          <MyTabs
+            width={width}
+            tabs={Object.values(stats)}
+            tab={tab}
+            handleTabs={handleTabs}
+          />
+        }
+      >
+        {animes
+          .filter((i) => i.status === Object.keys(stats)[tab])
+          .map(({ anime }) => (
+            <Grid key={anime.id} item xs={4} sm={3} md={2}>
+              <GridCard key={anime.id} data={anime} />
+            </Grid>
+          ))}
+      </List>
+    </>
   );
 }
 
@@ -85,10 +91,5 @@ const mapStateToProps = (state) => ({
   user: state.user.user,
   isLogged: state.user.isLogged,
 });
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     increment: () => dispatch({ type: 'INCREMENT' }),
-//   }
-// }
 
 export default connect(mapStateToProps)(Bookmarks);

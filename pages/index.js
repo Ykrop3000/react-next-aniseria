@@ -2,7 +2,7 @@ import React from "react";
 
 import { Grid, Typography, NoSsr } from "@material-ui/core";
 import dynamic from "next/dynamic";
-
+import Head from "next/Head";
 import { fetchUpdates, fetchAnimesLocal } from "src/api";
 
 import styles from "assets/css/pages/mainPage/main.module.css";
@@ -29,6 +29,14 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 
   return (
     <>
+      <Head>
+        <title>AniSeria</title>
+        <meta
+          key="description"
+          name="description"
+          content="Смотреть аниме онлайн бесплатно. Большая база лучших аниме с русской озвучкой в хорошем качестве."
+        />
+      </Head>
       <div className={styles.carousel}>
         <Carousel full data={ongoings} />
       </div>

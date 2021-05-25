@@ -1,14 +1,24 @@
-// 404.js
 import Link from "next/link";
 import styles from "assets/css/404.module.css";
+import Head from "next/Head";
 
 export default function FourOhFour() {
   return (
-    <div className={styles.wrap}>
-      <h1>500 | Internal Server Error </h1>
-      <Link href="/">
-        <a>Домой</a>
-      </Link>
-    </div>
+    <>
+      <Head>
+        <title>500 | AniSeria</title>
+        <meta
+          key="description"
+          name="description"
+          content="500 | Internal Server Error"
+        />
+      </Head>
+      <div className={styles.wrap}>
+        <h1>500 | Internal Server Error </h1>
+        <Link href="/">
+          <a>Домой</a>
+        </Link>
+      </div>
+    </>
   );
 }

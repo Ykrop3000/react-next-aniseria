@@ -28,7 +28,7 @@ function Footer({}) {
       <div className="container">
         <div className={classes.footer}>
           <Grid container>
-            <Grid item xs="12" sm="4" md="3">
+            <Grid item xs={12} sm={4} md={3}>
               <h3>Контакты / Contacts</h3>
               <a
                 title="BK aniseria"

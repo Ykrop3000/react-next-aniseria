@@ -36,6 +36,11 @@ function Animes({ mode, data = {}, totalPages }) {
     <>
       <Head>
         <title key="title">{`Каталог аниме | AniSeria`}</title>
+        <meta
+          key="description"
+          name="description"
+          content="`Каталог аниме онлайн бесплатно. Большая база лучших аниме с русской озвучкой в хорошем качестве."
+        />
       </Head>
       <List title="Каталог аниме" pages={totalPages}>
         {animes.map((anime) =>

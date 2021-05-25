@@ -1,14 +1,12 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@material-ui/core/styles";
-import theme from "../src/theme";
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ru">
         <Head>
-          <title>AniSeria</title>
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -35,11 +33,7 @@ export default class MyDocument extends Document {
           <link rel="canonical" href="https://aniseria.ru/"></link>
           <meta name="msapplication-TileColor" content="#da532c" />
           <meta name="theme-color" content="#ffffff" />
-          <meta
-            key="description"
-            name="description"
-            content="Смотреть аниме онлайн бесплатно. Большая база лучших аниме с русской озвучкой в хорошем качестве."
-          />
+
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-GHJMS3JFVJ"
