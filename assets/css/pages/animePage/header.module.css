@@ -14,6 +14,7 @@
 .img_wrap {
   padding: 0 12px;
 }
+
 @media (min-width: 600px) {
   .header {
     padding-top: 64px !important;
@@ -34,6 +35,7 @@
     padding: 16px 16px 0;
     text-align: center;
   }
+
   .action {
     padding: 8px;
     font-weight: 500;
@@ -63,6 +65,9 @@
   .action {
     font-size: 13px;
     border-radius: 16px;
+  }
+  .mini_actions {
+    display: none;
   }
   .action:last-child {
     margin-left: 8px;

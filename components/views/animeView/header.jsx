@@ -131,7 +131,7 @@ const Actions = ({
     setOpen(null);
   };
   return (
-    <div className={styles.actions}>
+    <div className={`${styles.actions}`}>
       <Button
         onClick={hookWatch}
         fullWidth={!mobile}
@@ -246,6 +246,7 @@ function Header({
   isLogged,
   kinds,
   stats,
+  width = 1040,
   statusAnime,
 }) {
   const classes = useStyles();
@@ -272,6 +273,7 @@ function Header({
               alt="poster"
             />
           </div>
+
           <Actions
             hookWatch={hookWatch}
             anime={data}
@@ -279,12 +281,14 @@ function Header({
             isfavorite={data.favoured}
             stats={stats}
             user={user}
+            mobile={width < 600}
           />
+
           <div className={classes.poster_buttons}></div>
         </div>
       </Grid>
       <Grid item xs={12} sm={8} md={9} className={classes.info}>
-        {!isMobile && (
+        {width >= 600 && (
           <>
             <Typography
               component="h2"
@@ -312,7 +316,7 @@ function Header({
           </>
         )}
 
-        {isMobile && (
+        {width < 600 && (
           <div className={classes.mobileTitle_wrap}>
             <Typography
               component="h2"
@@ -337,13 +341,14 @@ function Header({
               }`}
             </Typography>
             <Rate raiting={data.score} votes={data.rates_scores_stats} />
+
             <Actions
               hookWatch={hookWatch}
               anime={data}
               isfavorite={data.favoured}
               stats={stats}
               user={user}
-              mobile
+              mobile={width < 600}
             />
           </div>
         )}

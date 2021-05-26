@@ -4,7 +4,6 @@ import Header from "components/views/animeView/header";
 import dynamic from "next/dynamic";
 import { fetchAnimeLocal, fetchAnimeRelated, fetchAnimeSimilar } from "src/api";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import classes from "assets/css/pages/animePage/content.module.css";
 import Overview from "components/views/animeView/overview";
@@ -22,9 +21,9 @@ export default function Anime({
   data = {},
   err = false,
   id,
+  width,
   isMobile = false,
 }) {
-  const router = useRouter();
   const [anime, setAnime] = React.useState(data);
   const [related, setRelated] = React.useState([]);
   const [similar, setSimilar] = React.useState([]);
@@ -41,12 +40,6 @@ export default function Anime({
     setSimilar(data);
   };
 
-  // React.useEffect(() => {
-  //   handleChange("", router.query.tab || "overview");
-  // }, [router]);
-  // React.useEffect(() => {
-  //   handleChange("", router.query.tab);
-  // }, [router.query.tab]);
   React.useEffect(() => {
     setAnime(data);
     getRelated();
@@ -54,19 +47,9 @@ export default function Anime({
   }, [id]);
 
   const handleChange = (event, newValue) => {
-    if (router.query.tab !== newValue) {
-      router.push({
-        query: { id: router.query.id, tab: newValue },
-      });
-    }
-
     setPage(newValue);
   };
   const hookWatch = () => {
-    router.push({
-      pathname: router.pathname,
-      query: { id: router.query.id, player: "kodik", tab: "watch" },
-    });
     setPage("watch");
   };
 
@@ -116,7 +99,12 @@ export default function Anime({
           content={anime.studios.map((e) => e.name).join(", ")}
         ></meta>
 
-        <Header data={anime} hookWatch={hookWatch} isMobile={isMobile} />
+        <Header
+          data={anime}
+          hookWatch={hookWatch}
+          isMobile={isMobile}
+          width={width}
+        />
 
         <div className={classes.content_wrap}>
           <Grid className={classes.content} container spacing={2}>

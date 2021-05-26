@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   wrap: {
     display: "flex",
     zIndex: 2,
+    padding: "0 16px",
     position: "relative",
     maxWidth: "100vw",
     borderTop: "1px solid rgba(255,255,255, 0.06)",
