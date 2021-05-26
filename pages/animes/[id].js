@@ -68,7 +68,7 @@ export default function Anime({
               : ""
           }
         />
-        <link rel="canonical" href={"https://aniseria.ru" + anime.id}></link>
+        <link rel="canonical" href={"https://aniseria.ru/" + anime.id}></link>
         <meta
           property="og:description"
           content={
