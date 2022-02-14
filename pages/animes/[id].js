@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import Header from "components/views/animeView/header";
 import dynamic from "next/dynamic";
-import { fetchAnimeLocal, fetchAnimeRelated, fetchAnimeSimilar } from "src/api";
+import { fetchAnime, fetchAnimeRelated, fetchAnimeSimilar } from "src/api";
 import Head from "next/head";
 
 import classes from "assets/css/pages/animePage/content.module.css";
@@ -60,8 +60,8 @@ export default function Anime({
       <Head>
         <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
         <meta
-          key="description"
-          name="description"
+          key='description'
+          name='description'
           content={
             anime.description
               ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
@@ -69,11 +69,10 @@ export default function Anime({
           }
         />
         <link
-          rel="canonical"
-          href={"https://aniseria.ru/animes/" + anime.id}
-        ></link>
+          rel='canonical'
+          href={"https://aniseria.ru/animes/" + anime.id}></link>
         <meta
-          property="og:description"
+          property='og:description'
           content={
             anime.description
               ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
@@ -81,27 +80,25 @@ export default function Anime({
           }
         />
         <meta
-          property="og:title"
+          property='og:title'
           content={`${anime.russian} / ${anime.name}  | AniSeria`}
         />
         <meta
-          property="og:image"
+          property='og:image'
           content={`https://shikimori.one${data.image.original}`}
         />
       </Head>
       <div
         itemScope
-        itemType="http://schema.org/Movie"
-        style={{ display: "contents" }}
-      >
-        <meta itemType="duration" content={anime.duration} />
-        <meta itemType="datePublished" content={anime.released_on} />
-        <meta itemType="dateCreated" content={anime.aired_on} />
-        <meta itemType="inLanguage" content="jp" />
+        itemType='http://schema.org/Movie'
+        style={{ display: "contents" }}>
+        <meta itemType='duration' content={anime.duration} />
+        <meta itemType='datePublished' content={anime.released_on} />
+        <meta itemType='dateCreated' content={anime.aired_on} />
+        <meta itemType='inLanguage' content='jp' />
         <meta
-          itemProp="productionCompany"
-          content={anime.studios.map((e) => e.name).join(", ")}
-        ></meta>
+          itemProp='productionCompany'
+          content={anime.studios.map((e) => e.name).join(", ")}></meta>
 
         <Header
           data={anime}
@@ -115,20 +112,19 @@ export default function Anime({
             <Grid item xs={12} sm={4} md={3} style={{ padding: 0 }}></Grid>
             <Grid item xs={12} sm={8} md={6}>
               <Tabs
-                indicatorColor="primary"
-                textColor="primary"
+                indicatorColor='primary'
+                textColor='primary'
                 value={page}
-                className="tabs"
+                className='tabs'
                 onChange={handleChange}
-                aria-label="disabled tabs example"
-                centered={!isMobile ? false : true}
-              >
-                <Tab className="tab" value="overview" label="описание" />
+                aria-label='disabled tabs example'
+                centered={!isMobile ? false : true}>
+                <Tab className='tab' value='overview' label='описание' />
 
                 {anime.status !== "anons" && (
                   <Tab
-                    className="tab"
-                    value="watch"
+                    className='tab'
+                    value='watch'
                     label={`серии (${
                       anime.episodes !== 0
                         ? anime.episodes
@@ -137,7 +133,7 @@ export default function Anime({
                   />
                 )}
                 {isMobile && (
-                  <Tab className="tab" label="комментарии" value="comments" />
+                  <Tab className='tab' label='комментарии' value='comments' />
                 )}
               </Tabs>
 
@@ -153,10 +149,9 @@ export default function Anime({
                 page === "comments") && (
                 <>
                   <Typography
-                    component="h4"
-                    variant="h5"
-                    style={{ fontWeight: 600, margin: "24px 0" }}
-                  >
+                    component='h4'
+                    variant='h5'
+                    style={{ fontWeight: 600, margin: "24px 0" }}>
                     Комментарии
                   </Typography>
                   <Comments topic_id={anime.topic_id} />
@@ -185,7 +180,7 @@ export default function Anime({
 
 export async function getServerSideProps(ctx) {
   const id = ctx.params.id;
-  const resp = await fetchAnimeLocal(id);
+  const resp = await fetchAnime(id);
 
   if (resp.data.code) return { props: { err: resp.data.code } };
   let anime = resp.data;

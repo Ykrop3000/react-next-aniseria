@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { connect } from "react-redux";
-import { fetchAnimes, fetchAnimesLocal } from "src/api";
+import { fetchAnimes } from "src/api";
 import dynamic from "next/dynamic";
 import { Grid } from "@material-ui/core";
 
@@ -35,14 +35,14 @@ function Animes({ mode, data = {}, totalPages }) {
   return (
     <>
       <Head>
-        <title key="title">{`Каталог аниме | AniSeria`}</title>
+        <title key='title'>{`Каталог аниме | AniSeria`}</title>
         <meta
-          key="description"
-          name="description"
-          content="`Каталог аниме онлайн бесплатно. Большая база лучших аниме с русской озвучкой в хорошем качестве."
+          key='description'
+          name='description'
+          content='`Каталог аниме онлайн бесплатно. Большая база лучших аниме с русской озвучкой в хорошем качестве.'
         />
       </Head>
-      <List title="Каталог аниме" pages={totalPages}>
+      <List title='Каталог аниме' pages={totalPages}>
         {animes.map((anime) =>
           mode === "grid" ? (
             <Grid key={anime.id} item xs={4} sm={3} md={2}>
@@ -57,12 +57,12 @@ function Animes({ mode, data = {}, totalPages }) {
   );
 }
 export async function getServerSideProps({ query }) {
-  const resp = await fetchAnimesLocal({
+  const resp = await fetchAnimes({
     limit: 30,
     order: "ranked",
     ...query,
   });
-  return { props: { data: resp.data.docs, totalPages: resp.data.totalPages } };
+  return { props: { data: resp.data, totalPages: 10 } };
 }
 // Animes.getInitialProps = async ({ query }) => {
 //   const resp = await getAnimesApi({
