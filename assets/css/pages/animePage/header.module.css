@@ -11,13 +11,24 @@
   max-width: 100%;
   border-radius: 6px;
 }
+.card_poster {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  padding-top: 150%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .img_wrap {
   padding: 0 12px;
 }
 
 @media (min-width: 600px) {
   .header {
-    padding-top: 64px !important;
+    padding-top: 84px !important;
   }
   .poster {
     left: 0;

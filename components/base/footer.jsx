@@ -1,6 +1,6 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import VkIcon from "components/imgages/vkIcon";
 // const Filter = dynamic(import("../filter/filter"));
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import Section from "components/pagesComponent/siteBar/section";
 import Info from "components/pagesComponent/siteBar/info";

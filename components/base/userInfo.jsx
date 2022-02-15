@@ -1,7 +1,7 @@
-import { ButtonBase, Avatar } from "@material-ui/core";
-import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import { makeStyles } from "@material-ui/core/styles";
+import { ButtonBase, Avatar } from "@mui/material";
+import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import styles from "assets/css/header.module.css";

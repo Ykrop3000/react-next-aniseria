@@ -1,8 +1,8 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import { AppBar, Toolbar, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Toolbar, IconButton } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { connect } from "react-redux";
 import Link from "next/link";
 import Logo from "components/imgages/logo";
@@ -17,13 +17,13 @@ const SearchField = dynamic(import("components/fields/searchField"), {
 
 const useStyles = makeStyles((theme) => ({
   toolBar: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('md')]: {
       maxWidth: "700px",
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: "990px",
     },
-    [theme.breakpoints.down("lg")]: {
+    [theme.breakpoints.down('xl')]: {
       maxWidth: "1040px",
     },
     [theme.breakpoints.up("lg")]: {
@@ -44,7 +44,7 @@ function Header({ absolute, transparent, isMobile }) {
       <Toolbar className={(classes.toolBar, styles.toolBar)}>
         <div className={styles.block}>
           <Link href="/">
-            <IconButton component="a" className={styles.home}>
+            <IconButton component="a" className={styles.home} size="large">
               <Logo />
             </IconButton>
           </Link>

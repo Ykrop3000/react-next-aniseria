@@ -1,7 +1,9 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import styles from "../../assets/css/cards/gridCard.module.css";
+import BgImage from '../imgages/bgImage'
+
 
 export default function gridCard({ data, status = true, rate = true }) {
   const kind = useSelector((state) => state.constant.kind);
@@ -15,10 +17,12 @@ export default function gridCard({ data, status = true, rate = true }) {
   return (
     <Link href={url} className={styles.card}>
       <a title={`${data.russian} / ${data.name}`}>
-        <div
-          style={{
-            backgroundImage: `url(https://shikimori.one${data.image.preview})`,
-          }}
+        <BgImage
+          imgsrc={`https://shikimori.one${data.image.preview}`}
+          imgalt={data.name}
+          // style={{
+          //   backgroundImage: `url(https://shikimori.one${data.image.preview})`,
+          // }}
           className={`card_poster ${styles.card_poster}`}
         >
           {status && data.status == "anons" && (
@@ -29,7 +33,7 @@ export default function gridCard({ data, status = true, rate = true }) {
           {rate && data.score !== "0.0" && (
             <div className={styles.card_poster__score}>{data.score}</div>
           )}
-        </div>
+        </BgImage>
         <Typography variant="h6" className={styles.card_title}>
           {data.russian}
         </Typography>

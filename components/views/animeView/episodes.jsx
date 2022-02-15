@@ -8,7 +8,7 @@ import {
   ListItem,
   ListItemText,
   Modal,
-} from "@material-ui/core";
+} from "@mui/material";
 import { getEpisodes } from "src/api";
 
 const Episode = ({ season, title, translation, link }) => {

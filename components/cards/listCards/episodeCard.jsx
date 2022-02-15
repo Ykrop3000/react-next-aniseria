@@ -1,6 +1,7 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "../../../assets/css/cards/listCardEpisode.module.css";
+import BgImage from '../../imgages/bgImage'
 
 import TimeAgo from "timeago-react"; // var TimeAgo = require('timeago-react');
 import ru from "timeago.js/lib/lang/ru";
@@ -16,10 +17,11 @@ export default function ListCardEpisode({ data }) {
           className={styles.card_poster__wrap}
           title={`${data.material_data.title} / ${data.material_data.title_en}`}
         >
-          <div
+          <BgImage
+            imgsrc={data.material_data.poster_url}
+            imgalt={data.material_data.title_en}
             className={`card_poster ${styles.card_poster}`}
-            style={{ backgroundImage: `url(${data.material_data.poster_url})` }}
-          ></div>
+          ></BgImage>
         </a>
       </Link>
       <div className={styles.card_content}>

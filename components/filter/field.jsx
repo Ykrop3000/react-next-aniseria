@@ -1,5 +1,5 @@
 import React from 'react'
-import {FormControl,Select,MenuItem } from '@material-ui/core'
+import {FormControl,Select,MenuItem } from '@mui/material'
 import { useRouter } from 'next/router'
 
 

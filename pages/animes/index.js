@@ -3,17 +3,29 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { fetchAnimes } from "src/api";
 import dynamic from "next/dynamic";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
 
 import List from "components/views/list";
 import GridCard from "components/cards/gridCard";
 import Head from "next/head";
 const ListCard = dynamic(import("components/cards/listCards/fullCard"));
 
-function Animes({ mode, data = {}, totalPages }) {
+const SkeletonItem = () => {
+  return (
+    <Grid item xs={4} sm={3} md={2}>
+      <Skeleton variant='rectangular' animation='wave' width={"100%"}>
+        <GridCard data={{ url: "/", image: { preview: "" } }} />
+      </Skeleton>
+      <Skeleton variant='text' animation='wave' width={"100%"} />
+    </Grid>
+  );
+};
+
+function Animes({ mode, data = {}, totalPages, setStateAnimes, stateList }) {
   const router = useRouter();
-  const isFirstRun = React.useRef(true);
-  const [animes, setAnimes] = React.useState(data);
+  // const isFirstRun = React.useRef(true);
+  const [animes, setAnimes] = React.useState(stateList || data);
 
   const getAnimes = async () => {
     const resp = await fetchAnimes({
@@ -22,13 +34,14 @@ function Animes({ mode, data = {}, totalPages }) {
       ...router.query,
     });
     setAnimes(resp.data);
+    setStateAnimes(resp.data);
   };
 
   React.useEffect(() => {
-    if (isFirstRun.current && animes.length !== 0) {
-      isFirstRun.current = false;
-      return;
-    }
+    // if (isFirstRun.current && animes.length !== 0) {
+    //   isFirstRun.current = false;
+    //   return;
+    // }
     getAnimes();
   }, [router.query]);
   //
@@ -43,6 +56,9 @@ function Animes({ mode, data = {}, totalPages }) {
         />
       </Head>
       <List title='Каталог аниме' pages={totalPages}>
+        {/* {animes.length == 0
+          ? Array.from(new Array(30)).map((_) => <SkeletonItem />)
+          : null} */}
         {animes.map((anime) =>
           mode === "grid" ? (
             <Grid key={anime.id} item xs={4} sm={3} md={2}>
@@ -56,14 +72,14 @@ function Animes({ mode, data = {}, totalPages }) {
     </>
   );
 }
-export async function getServerSideProps({ query }) {
-  const resp = await fetchAnimes({
-    limit: 30,
-    order: "ranked",
-    ...query,
-  });
-  return { props: { data: resp.data, totalPages: 10 } };
-}
+// export async function getServerSideProps({ query }) {
+//   const resp = await fetchAnimes({
+//     limit: 30,
+//     order: "ranked",
+//     ...query,
+//   });
+//   return { props: { data: resp.data, totalPages: 10 } };
+// }
 // Animes.getInitialProps = async ({ query }) => {
 //   const resp = await getAnimesApi({
 //     limit: 30,
@@ -75,11 +91,12 @@ export async function getServerSideProps({ query }) {
 
 const mapStateToProps = (state) => ({
   mode: state.list.viewMode,
+  stateList: state.list.animes,
 });
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     increment: () => dispatch({ type: 'INCREMENT' }),
-//   }
-// }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setStateAnimes: (payload) => dispatch({ type: "ANIMES", payload: payload }),
+  };
+};
 
-export default connect(mapStateToProps)(Animes);
+export default connect(mapStateToProps, mapDispatchToProps)(Animes);

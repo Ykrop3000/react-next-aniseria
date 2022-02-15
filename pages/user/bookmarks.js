@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getFavorites } from "src/api";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { Grid, Tab, Tabs } from "@material-ui/core";
+import { Grid, Tab, Tabs } from "@mui/material";
 
 import List from "components/views/list";
 import GridCard from "components/cards/gridCard";

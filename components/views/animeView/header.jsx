@@ -1,15 +1,17 @@
 import React from "react";
-import { Grid, Typography, Button, MenuItem, Select } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Typography, Button, MenuItem, Select } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { connect } from "react-redux";
 import dynamic from "next/dynamic";
-import StarIcon from "@material-ui/icons/Star";
+import StarIcon from "@mui/icons-material/Star";
 import styles from "assets/css/pages/animePage/header.module.css";
-import { addFavorite, removeFavorite } from "src/api";
-const Menu = dynamic(import("@material-ui/core/Menu"));
+import BgImage from '../../imgages/bgImage'
 
-const BookmarkBorderIcon = dynamic(import("@material-ui/icons/BookmarkBorder"));
-const BookmarkIcon = dynamic(import("@material-ui/icons/Bookmark"));
+import { addFavorite, removeFavorite } from "src/api";
+const Menu = dynamic(import("@mui/material/Menu"));
+
+const BookmarkBorderIcon = dynamic(import("@mui/icons-material/BookmarkBorder"));
+const BookmarkIcon = dynamic(import("@mui/icons-material/Bookmark"));
 
 // const Filter = dynamic(import("../filter/filter"));
 const useStylesRate = makeStyles((theme) => ({
@@ -40,7 +42,7 @@ const useStylesRate = makeStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    margin: " 4px 0px 16px",
+    margin: "4px 0px 16px",
     fontWeight: 600,
     fontSize: "28px",
     display: "flex",
@@ -266,11 +268,11 @@ function Header({
             itemScope
             itemType="http://schema.org/ImageObject"
           >
-            <img
+            <BgImage
               itemProp="contentUrl"
-              className={styles.img}
-              src={`https://shikimori.one${data.image.original}`}
-              alt="poster"
+               className={`card_poster ${styles.card_poster}`}
+              imgsrc={`https://shikimori.one${data.image.original}`}
+              imgalt="poster"
             />
           </div>
 

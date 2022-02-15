@@ -1,6 +1,7 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "assets/css/cards/listCardSmall.module.css";
+import BgImage from '../../imgages/bgImage'
 
 export default function ListCardSearch({ data }) {
   return (
@@ -10,18 +11,17 @@ export default function ListCardSearch({ data }) {
         className={styles.card}
         style={{ background: "transparent" }}
       >
-        <div
-          className={`card_poster ${styles.card_poster}`}
-          style={{
-            width: "16px",
-            height: "24px",
-            minWidth: "16px",
-            minHeight: "24px",
-          }}
-          style={{
-            backgroundImage: `url(https://shikimori.one${data.image.preview})`,
-          }}
-        ></div>
+        <BgImage
+            style={{
+              width: "16px",
+              height: "24px",
+              minWidth: "16px",
+              minHeight: "24px",
+            }}
+            imgsrc={`https://shikimori.one${data.image.preview}`}
+            imgalt={data.name}
+            className={`card_poster ${styles.card_poster}`}
+        ></BgImage>
 
         <div className={styles.card_content}>
           <Typography

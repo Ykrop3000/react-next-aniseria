@@ -1,7 +1,7 @@
 import styles from "assets/css/header.module.css";
-import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
-import AppsIcon from "@material-ui/icons/Apps";
-import CasinoIcon from "@material-ui/icons/Casino";
+import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
+import AppsIcon from "@mui/icons-material/Apps";
+import CasinoIcon from "@mui/icons-material/Casino";
 
 import Link from "next/link";
 

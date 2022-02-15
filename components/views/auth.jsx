@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogContent, Typography, Button } from "@material-ui/core";
+import { Dialog, DialogContent, Typography, Button } from "@mui/material";
 import { connect } from "react-redux";
 import { USER } from "store/actions/types";
 import { signIn } from "src/api";

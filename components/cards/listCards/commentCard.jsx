@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "assets/css/cards/commentCard.module.css";
 

@@ -6,8 +6,8 @@ import {
   MenuItem,
   Checkbox,
   ListItemText,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -47,7 +47,7 @@ export default function filterField({
   };
 
   return (
-    <FormControl className={classes.form}>
+    <FormControl className={classes.form} mx={2}>
       <Select
         variant="outlined"
         defaultValue={"false"}

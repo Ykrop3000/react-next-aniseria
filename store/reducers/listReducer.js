@@ -2,7 +2,7 @@ import { VIEWMODE, ANIMES } from "../actions/types";
 
 const initialState = {
   viewMode: "grid",
-  animes: {},
+  animes: [],
 };
 
 export default function list(state = initialState, action) {

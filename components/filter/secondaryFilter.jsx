@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Box, Button } from "@material-ui/core";
+import { Box, Button } from "@mui/material";
 import styles from "assets/css/secondaryFilter.module.css";
 import Field from "./field";
 
-import { makeStyles } from "@material-ui/core/styles";
-// import SwapVertIcon from "@material-ui/icons/SwapVert";
-// import ViewComfyIcon from "@material-ui/icons/ViewComfy";
-// import ListIcon from "@material-ui/icons/List";
+import makeStyles from '@mui/styles/makeStyles';
+// import SwapVertIcon from "@mui/icons-material/SwapVert";
+// import ViewComfyIcon from "@mui/icons-material/ViewComfy";
+// import ListIcon from "@mui/icons-material/List";
 // import { useRouter } from "next/router";
 
 import { VIEWMODE } from "../../store/actions/types";

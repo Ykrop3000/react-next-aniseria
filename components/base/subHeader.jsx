@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography, NoSsr } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, NoSsr } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   subHeader: {

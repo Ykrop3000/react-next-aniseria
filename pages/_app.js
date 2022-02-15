@@ -1,17 +1,31 @@
 import React from "react";
-import { ThemeProvider, StylesProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+// import StylesProvider from "@mui/styles/StylesProvider";
+import CssBaseline from "@mui/material/CssBaseline";
 import theme from "src/theme";
 import "assets/css/main.css";
+//
 import Header from "components/base/header";
 import Footer from "components/base/footer";
+//
 import { Provider } from "react-redux";
 import { useStore } from "store";
 import { HEADERABSOLUTE, HEADERTRANSPARENT } from "../store/actions/types";
+//
 import { useRouter } from "next/router";
+import NextNProgress from "nextjs-progressbar";
+//
+import createEmotionCache from "../src/createEmotionCache";
+import { CacheProvider } from "@emotion/react";
+const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
-  const { Component, pageProps, isMobile } = props;
+  const {
+    Component,
+    pageProps,
+    isMobile,
+    emotionCache = clientSideEmotionCache,
+  } = props;
   const size = useWindowSize();
   const store = useStore(pageProps.initialReduxState);
   const router = useRouter();
@@ -47,26 +61,23 @@ export default function MyApp(props) {
   }, [router.pathname]);
 
   return (
-    <React.Fragment>
-      <StylesProvider injectFirst>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
+    <CacheProvider value={emotionCache}>
+      <NextNProgress />
+      {/* <StylesProvider injectFirst> */}
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
 
-            <div id="app" className="app">
-              <Header isMobile={isMobile} />
-              <Component
-                {...pageProps}
-                isMobile={isMobile}
-                width={size.width}
-              />
-              <Footer />
-            </div>
-          </ThemeProvider>
-        </Provider>
-      </StylesProvider>
-    </React.Fragment>
+          <div id='app' className='app'>
+            <Header isMobile={isMobile} />
+            <Component {...pageProps} isMobile={isMobile} width={size.width} />
+            <Footer />
+          </div>
+        </ThemeProvider>
+      </Provider>
+      {/* </StylesProvider> */}
+    </CacheProvider>
   );
 }
 MyApp.getInitialProps = async (something) => {

@@ -1,7 +1,8 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "assets/css/cards/listCardSmall.module.css";
 import { useSelector } from "react-redux";
+import BgImage from '../../imgages/bgImage'
 
 export default function ListCardSmall({ data }) {
   const kind = useSelector((state) => state.constant.kind);
@@ -13,12 +14,12 @@ export default function ListCardSmall({ data }) {
   return (
     <Link href={data.url}>
       <a title={`${data.russian} / ${data.name}`} className={styles.card}>
-        <div
+
+        <BgImage
+          imgsrc={`https://shikimori.one${data.image.preview}`}
+          imgalt={data.name}
           className={`card_poster ${styles.card_poster}`}
-          style={{
-            backgroundImage: `url(https://shikimori.one${data.image.preview})`,
-          }}
-        ></div>
+        />
 
         <div className={styles.card_content}>
           <Typography

@@ -1,17 +1,14 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "../../../assets/css/cards/listCardFull.module.css";
-import StarIcon from "@material-ui/icons/Star";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import StarIcon from "@mui/icons-material/Star";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector } from "react-redux";
+import BgImage from '../../imgages/bgImage'
 
 export default function ListCardSmall({ data }) {
   const kind = useSelector((state) => state.constant.kind);
 
-  const getYear = (date) => {
-    if (!date) return "";
-    return date.split("-")[0];
-  };
 
   return (
     <Grid item xs={12} sm={6}>
@@ -20,10 +17,11 @@ export default function ListCardSmall({ data }) {
           title={`${data.material_data.title} / ${data.material_data.title_en}`}
           className={`${styles.card}`}
         >
-          <div
+          <BgImage
+            imgsrc={data.material_data.poster_url}
+            imgalt={data.material_data.title_en}
             className={`card_poster ${styles.card_poster}`}
-            style={{ backgroundImage: `url(${data.material_data.poster_url})` }}
-          ></div>
+          ></BgImage>
 
           <div className={styles.card_content}>
             <Typography

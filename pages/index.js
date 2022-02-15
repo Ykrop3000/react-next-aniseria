@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, Typography, NoSsr } from "@material-ui/core";
+import { Grid, Typography, NoSsr } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { fetchUpdates, fetchAnimes } from "src/api";
@@ -44,8 +44,8 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
       <Grid container spacing={1} className='container' direction='row-reverse'>
         <Grid item xs={12} sm={4}>
           <SiteBar title='Популярное' isMobile={isMobile}>
-            {populars.map((data) => (
-              <ListCardSmall data={data} />
+            {populars.map((data, id) => (
+              <ListCardSmall key={id} data={data} />
             ))}
           </SiteBar>
         </Grid>

@@ -2,7 +2,7 @@ import OutlineField from "./outlineField";
 import { getGenres } from "src/api";
 import React from "react";
 import { connect } from "react-redux";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import Link from "next/link";
 
 function Filter({ statusAnime, kind }) {

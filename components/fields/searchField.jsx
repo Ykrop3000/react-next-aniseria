@@ -1,11 +1,11 @@
 import React from "react";
-import NoSsr from "@material-ui/core/NoSsr";
+import NoSsr from "@mui/material/NoSsr";
 import { useRouter } from "next/router";
 
-import { TextField, InputAdornment } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
+import { TextField, InputAdornment } from "@mui/material";
+import Autocomplete from '@mui/material/Autocomplete';
+import makeStyles from '@mui/styles/makeStyles';
+import SearchIcon from "@mui/icons-material/Search";
 import { fetchAnimes } from "src/api";
 import ListCardSearch from "components/cards/listCards/searchCard";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 const ListCardSmall = dynamic(import("components/cards/listCards/smallCard"));
 const Carousel = dynamic(import("components/views/carousel"));

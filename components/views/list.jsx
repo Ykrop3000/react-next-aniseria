@@ -1,4 +1,4 @@
-import { Grid, NoSsr } from "@material-ui/core";
+import { Grid, NoSsr } from "@mui/material";
 import SubHeader from "components/base/subHeader";
 
 import dynamic from "next/dynamic";
