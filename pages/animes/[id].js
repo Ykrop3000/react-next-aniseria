@@ -55,125 +55,125 @@ export default function Anime({
 
   if (err) return <Error statusCode={err} />;
 
-  return <>
-    <Head>
-      <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
-      <meta
-        key='description'
-        name='description'
-        content={
-          anime.description
-            ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
-            : ""
-        }
-      />
-      <link
-        rel='canonical'
-        href={"https://aniseria.ru/animes/" + anime.id}></link>
-      <meta
-        property='og:description'
-        content={
-          anime.description
-            ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
-            : ""
-        }
-      />
-      <meta
-        property='og:title'
-        content={`${anime.russian} / ${anime.name}  | AniSeria`}
-      />
-      <meta
-        property='og:image'
-        content={`https://shikimori.one${data.image.original}`}
-      />
-    </Head>
-    <div
-      itemScope
-      itemType='http://schema.org/Movie'
-      style={{ display: "contents" }}>
-      <meta itemType='duration' content={anime.duration} />
-      <meta itemType='datePublished' content={anime.released_on} />
-      <meta itemType='dateCreated' content={anime.aired_on} />
-      <meta itemType='inLanguage' content='jp' />
-      <meta
-        itemProp='productionCompany'
-        content={anime.studios.map((e) => e.name).join(", ")}></meta>
+  return (
+    <>
+      <Head>
+        <title>{`${anime.russian} / ${anime.name}  | AniSeria`}</title>
+        <meta
+          key='description'
+          name='description'
+          content={
+            anime.description
+              ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
+              : ""
+          }
+        />
+        <link rel='canonical' href={"https://aniseria.ru" + anime.url}></link>
+        <meta
+          property='og:description'
+          content={
+            anime.description
+              ? anime.description.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, "")
+              : ""
+          }
+        />
+        <meta
+          property='og:title'
+          content={`${anime.russian} / ${anime.name}  | AniSeria`}
+        />
+        <meta
+          property='og:image'
+          content={`https://shikimori.one${data.image.original}`}
+        />
+      </Head>
+      <div
+        itemScope
+        itemType='http://schema.org/Movie'
+        style={{ display: "contents" }}>
+        <meta itemType='duration' content={anime.duration} />
+        <meta itemType='datePublished' content={anime.released_on} />
+        <meta itemType='dateCreated' content={anime.aired_on} />
+        <meta itemType='inLanguage' content='jp' />
+        <meta
+          itemProp='productionCompany'
+          content={anime.studios.map((e) => e.name).join(", ")}></meta>
 
-      <Header
-        data={anime}
-        hookWatch={hookWatch}
-        isMobile={isMobile}
-        width={width}
-      />
+        <Header
+          data={anime}
+          hookWatch={hookWatch}
+          isMobile={isMobile}
+          width={width}
+        />
 
-      <div className={classes.content_wrap}>
-        <Grid className={classes.content} container spacing={2}>
-          <Grid item xs={12} sm={4} md={3} style={{ padding: 0 }}></Grid>
-          <Grid item xs={12} sm={8} md={6}>
-            <Tabs
-              indicatorColor='primary'
-              textColor='primary'
-              value={page}
-              className='tabs'
-              onChange={handleChange}
-              aria-label='disabled tabs example'
-              centered={!isMobile ? false : true}>
-              <Tab className='tab' value='overview' label='описание' />
+        <div className={classes.content_wrap}>
+          <Grid className={classes.content} container spacing={2}>
+            <Grid item xs={12} sm={4} md={3} style={{ padding: 0 }}></Grid>
+            <Grid item xs={12} sm={8} md={6}>
+              <Tabs
+                indicatorColor='primary'
+                textColor='primary'
+                value={page}
+                className='tabs'
+                onChange={handleChange}
+                aria-label='disabled tabs example'
+                centered={!isMobile ? false : true}>
+                <Tab className='tab' value='overview' label='описание' />
 
-              {anime.status !== "anons" && (
-                <Tab
-                  className='tab'
-                  value='watch'
-                  label={`серии (${
-                    anime.episodes !== 0
-                      ? anime.episodes
-                      : anime.episodes_aired
-                  })`}
+                {anime.status !== "anons" && (
+                  <Tab
+                    className='tab'
+                    value='watch'
+                    label={`серии (${
+                      anime.episodes !== 0
+                        ? anime.episodes
+                        : anime.episodes_aired
+                    })`}
+                  />
+                )}
+                {isMobile && (
+                  <Tab className='tab' label='комментарии' value='comments' />
+                )}
+              </Tabs>
+
+              {/* ------------------ */}
+
+              {(page === "overview" || !page) && (
+                <Overview data={anime} isMobile={isMobile} />
+              )}
+              {page === "watch" && (
+                <Episodes data={anime} isMobile={isMobile} />
+              )}
+              {((!isMobile && (page === "overview" || !page)) ||
+                page === "comments") && (
+                <>
+                  <Typography
+                    component='h4'
+                    variant='h5'
+                    style={{ fontWeight: 600, margin: "24px 0" }}>
+                    Комментарии
+                  </Typography>
+                  <Comments topic_id={anime.topic_id} />
+                </>
+              )}
+
+              {/* ------------------ */}
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={3}>
+              {(page === "overview" || !page || !isMobile) && (
+                <SiteBar
+                  info={anime}
+                  similar={similar}
+                  related={related}
+                  isMobile={isMobile}
                 />
               )}
-              {isMobile && (
-                <Tab className='tab' label='комментарии' value='comments' />
-              )}
-            </Tabs>
-
-            {/* ------------------ */}
-
-            {(page === "overview" || !page) && (
-              <Overview data={anime} isMobile={isMobile} />
-            )}
-            {page === "watch" && (
-              <Episodes data={anime} isMobile={isMobile} />
-            )}
-            {((!isMobile && (page === "overview" || !page)) ||
-              page === "comments") && (
-              <>
-                <Typography
-                  component='h4'
-                  variant='h5'
-                  style={{ fontWeight: 600, margin: "24px 0" }}>
-                  Комментарии
-                </Typography>
-                <Comments topic_id={anime.topic_id} />
-              </>
-            )}
-
-            {/* ------------------ */}
+            </Grid>
           </Grid>
-
-          <Grid item xs={12} sm={12} md={3}>
-            {(page === "overview" || !page || !isMobile) && (
-              <SiteBar
-                info={anime}
-                similar={similar}
-                related={related}
-                isMobile={isMobile}
-              />
-            )}
-          </Grid>
-        </Grid>
+        </div>
       </div>
-    </div>
-  </>;
+    </>
+  );
 }
 
 export async function getServerSideProps(ctx) {

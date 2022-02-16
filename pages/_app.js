@@ -62,7 +62,7 @@ export default function MyApp(props) {
 
   return (
     <CacheProvider value={emotionCache}>
-      <NextNProgress />
+      <NextNProgress options={{ showSpinner: false }} />
       {/* <StylesProvider injectFirst> */}
       <Provider store={store}>
         <ThemeProvider theme={theme}>
