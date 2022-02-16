@@ -14,8 +14,7 @@ export default function ListCardSmall({ data }) {
   return (
     <Link href={data.url}>
       <a title={`${data.russian} / ${data.name}`} className={styles.card}>
-
-        <BgImage
+          <BgImage
           imgsrc={`https://shikimori.one${data.image.preview}`}
           imgalt={data.name}
           className={`card_poster ${styles.card_poster}`}

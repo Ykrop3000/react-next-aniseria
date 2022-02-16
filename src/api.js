@@ -7,8 +7,8 @@ import axios from "axios";
 const localApi = "http://localhost:8080";
 
 export const instance = axios.create();
-instance.defaults.headers.common["user-agent"] =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36";
+// instance.defaults.headers.common["user-agent"] =
+//   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36";
 
 export const fetchAnimes = (params) => {
   return instance.get("https://shikimori.one/api/animes", { params: params });
