@@ -221,6 +221,7 @@ const Rate = ({ raiting, votes }) => {
             itemScope
             itemType="https://schema.org/AggregateRating"
           >
+            <meta itemProp="bestRating" content="10" />
             <span itemProp="ratingValue" style={{ marginRight: "8px" }}>
               {raiting}
             </span>

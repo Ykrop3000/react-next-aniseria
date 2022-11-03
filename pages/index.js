@@ -27,6 +27,18 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 		getEpisodes();
 	}, [setEpisodes]);
 
+	const seoInfo = {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		itemListElement: populars.map((i, id) => {
+			return {
+				"@type": "ListItem",
+				position: id + 1,
+				url: `https://ranobe-alchemist.ru${i.url || i.shikimori_id}`,
+			};
+		}),
+	};
+
 	return (
 		<>
 			<Head>
@@ -76,6 +88,10 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 					</NoSsr>
 				</Grid>
 			</Grid>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(seoInfo) }}
+			/>
 		</>
 	);
 }
