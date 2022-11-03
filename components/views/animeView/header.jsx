@@ -328,7 +328,7 @@ function Header({
             >
               {data.name}
             </Typography>
-            <div className={classes.mobileTitle}>{data.russian}</div>
+            <div  itemProp="name" className={classes.mobileTitle}>{data.russian}</div>
             <Typography
               component="h2"
               variant="body2"
