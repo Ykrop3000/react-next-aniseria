@@ -5,7 +5,7 @@ import styles from "../../assets/css/cards/gridCard.module.css";
 import BgImage from '../imgages/bgImage'
 
 
-export default function gridCard({ data, status = true, rate = true }) {
+export default function gridCard({ data, status = true, rate = true, lazy=true }) {
   const kind = useSelector((state) => state.constant.kind);
   const statusAnime = useSelector((state) => state.constant.statusAnime);
 
@@ -20,6 +20,7 @@ export default function gridCard({ data, status = true, rate = true }) {
         <BgImage
           imgsrc={`https://shikimori.one${data.image.preview}`}
           imgalt={data.name}
+          lazy={lazy}
           // style={{
           //   backgroundImage: `url(https://shikimori.one${data.image.preview})`,
           // }}

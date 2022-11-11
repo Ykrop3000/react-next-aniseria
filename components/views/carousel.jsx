@@ -2,7 +2,7 @@ import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import Card from "components/cards/gridCard";
 
-export default function Carousel({ data = [], full }) {
+export default function Carousel({ data = [], full, lazy=true }) {
   let slideStyle = full
     ? {
         width: "160px",
@@ -28,7 +28,7 @@ export default function Carousel({ data = [], full }) {
         <Slider classNameTray={"slider"}>
           {data.map((i, id) => (
             <Slide style={slideStyle} key={id} index={id}>
-              <Card data={i} status={false} rate={false} />
+              <Card data={i} status={false} rate={false} lazy={lazy} />
             </Slide>
           ))}
         </Slider>

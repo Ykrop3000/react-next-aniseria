@@ -50,7 +50,7 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 				/>
 			</Head>
 			<div className={styles.carousel}>
-				<Carousel full data={ongoings} />
+				<Carousel full data={ongoings} lazy={false} />
 			</div>
 
 			<Grid container spacing={1} className="container" direction="row-reverse">
@@ -73,7 +73,7 @@ export default function Home({ anonses, ongoings, populars, isMobile }) {
 						>
 							Анонсы
 						</Typography>
-						<Carousel data={anonses} />
+						<Carousel data={anonses} lazy={false} />
 					</div>
 					<NoSsr>
 						<div style={{ margin: "12px" }}>

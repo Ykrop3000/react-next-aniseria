@@ -45,9 +45,10 @@ const BgImage = ({
   justifyContent = 'center',
   width ,
   className,
-  style
+  style,
+  lazy = true
 }) => {
-const [load,setLoad] = useState(true) 
+const [load,setLoad] = useState(lazy) 
   return <>
 
       <Container
